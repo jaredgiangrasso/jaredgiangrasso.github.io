@@ -1,0 +1,8 @@
+#cardViewer {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	grid-area: cards;
+	margin-top: 180px;
+	margin-bottom: 460px;
+}
