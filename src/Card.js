@@ -1,12 +1,16 @@
 import React, { Component } from 'react';
-import sampleScreen from './Images/sample-screen.png';
 import './Card.css';
 
 class Card extends Component {
+	constructor(props){
+		super(props);
+		
+	}
+
 	render() {
 		return (
 			<div className='card'>
-				<img id='screen' src={sampleScreen}/>
+				<img id='screen' src={this.props.screen}/>
 				<div id="project-title"> 
 					{this.props.children}
 				</div>
