@@ -1,5 +1,32 @@
 .App {
-	display: grid;
-	grid-template-columns: 65% 35%;
-	grid-template-areas: "info cards";
+	background-color: #F9FFFD;
+	font-family: Helvetica;
+}
+
+/* Media Query to create vertical layout on small screens. Use sticky positioning for bio? Fixed name/headshot as header. */
+
+@media only screen and (min-width: 900px) {
+	.App {
+		display: grid;
+		grid-template-columns: 60% 40%;
+		grid-template-areas: "info cards";
+	}
+}
+
+
+@media only screen and (max-width: 900px) {
+	.App {
+		display: grid;
+		grid-template-rows: 30% 70%;
+		grid-template-areas: 
+			"info"
+			"cards";
+		align-items: center;
+	}
+
+	#personal-info {
+		padding: 0 10% 10% 10%;
+		background-color: #F9FFFD;
+		border-bottom: 1px solid lightgray;
+	}
 }

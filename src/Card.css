@@ -1,7 +1,36 @@
 .card {
-	width: 400px;
-	height: 200px;
-	border-radius: 5%;
-	background-color: gray;
-	margin-top: 140px;
+	width: 80%;
+	height: 500px;
+	border-radius: 2%;
+	background-color: #E2DEDE;
+	margin-top: 150px;
+	position: relative;
+}
+
+h1 {
+	margin: 0;
+	margin-bottom: 2px;
+	font-size: 20px;
+	font-weight: bold;
+}
+
+h2 {
+	margin: 0;
+	font-size: 15px;
+	font-weight: lighter;
+}
+
+#project-title {
+	position: absolute;
+	bottom: 5%;
+	left: 7%;
+	font-size: 12px;
+}
+
+#screen {
+	width: 85%;
+	perspective: 100px;
+	position: relative;
+	top: 24%;
+	left: 7.5%;
 }

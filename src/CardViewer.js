@@ -6,7 +6,10 @@ class CardViewer extends Component {
 	render() {
 		return (
 			<div id="cardViewer">
-				<Card/>
+				<Card>
+					{<h2>NODE.JS/REACT</h2>}
+					{<h1>Penguin Book Search</h1>}
+				</Card>
 				<Card/>
 				<Card/>
 				<Card/>
