@@ -19,7 +19,7 @@ class Info extends Component {
 		        	Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum bibendum, purus nec facilisis sollicitudin, nunc purus placerat justo, ac euismod est lectus non lectus. Donec elementum, sapien a suscipit feugiat, sapien nisi ultrices lectus, vitae lobortis turpis sapien non arcu. 
 					</p>
 		    	</div>
-		    	<FontAwesomeIcon id="github-icon" icon={faGithub} size="3x"/>
+		    	<FontAwesomeIcon id="info-github-icon" icon={faGithub} size="3x"/>
 		    	<FontAwesomeIcon id="envelope-icon" icon={faEnvelope} size="3x"/>
 		    </div>
 	    )
