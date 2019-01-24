@@ -3,7 +3,23 @@
 	font-family: Helvetica;
 }
 
-/* Media Query to create vertical layout on small screens. Use sticky positioning for bio? Fixed name/headshot as header. */
+/* Modularize if needed */
+/* Adjust font sizes/spacing for small screens. Adjust card viewer margins/spacing for small screens. */
+
+@media only screen and (min-width: 1600px) {
+	#first, #second {
+		font-size: 80px;
+	}
+
+	#headshot {
+		width: 80px;
+		height: 80px;
+	}
+
+	#statement {
+		font-size: 15.2px;
+	}
+}
 
 @media only screen and (min-width: 900px) {
 	.App {
@@ -25,8 +41,12 @@
 	}
 
 	#personal-info {
-		padding: 0 10% 10% 10%;
+		padding: 0 10% 5% 10%;
 		background-color: #F9FFFD;
 		border-bottom: 1px solid lightgray;
+	}
+
+	#first, #second {
+		font-size: 60px;
 	}
 }

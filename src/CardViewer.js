@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import penguinScreen from './Images/penguin-screen.png'
-import practiceScreen from './Images/practice-screen.png'
+import penguinScreen from './Images/penguin-screen.png';
+import practiceScreen from './Images/practice-screen.png';
+import colorgameScreen from './Images/color-game-screen.png';
 import './CardViewer.css';
 import Card from './Card';
 
@@ -16,7 +17,10 @@ class CardViewer extends Component {
 					{<h2>HTML/CSS/REACT</h2>}
 					{<h1>Sample Portfolio Site</h1>}
 				</Card>	
-				<Card/>
+				<Card screen={colorgameScreen} gitLink=''>
+					{<h2>HTML/CSS/JAVASCRIPT</h2>}
+					{<h1>Color Picker Game</h1>}
+				</Card>
 			</div>
 		)
 	}
