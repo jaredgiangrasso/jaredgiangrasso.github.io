@@ -8,20 +8,22 @@ import './Info.css';
 class Info extends Component {
 	render() {
 		return (
-			<div id="personal-info">
-				<div id='links'>
-			        <h1 id="first">Jared</h1>
-			        <h2 id="second">Giangrasso</h2>
-			        <img id="headshot" src={Headshot}/>
-		        </div>
-		        <div id="statement">
-		        	<p>
-		        	Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum bibendum, purus nec facilisis sollicitudin, nunc purus placerat justo, ac euismod est lectus non lectus. Donec elementum, sapien a suscipit feugiat, sapien nisi ultrices lectus, vitae lobortis turpis sapien non arcu. 
-					</p>
-		    	</div>
-		    	<FontAwesomeIcon id="info-github-icon" icon={faGithub} size="3x"/>
-		    	<FontAwesomeIcon id="envelope-icon" icon={faEnvelope} size="3x"/>
-		    </div>
+			<div id='personal-info-container'>
+				<div id="personal-info">
+					<div id='links'>
+				        <h1 id="first">Jared</h1>
+				        <h2 id="second">Giangrasso</h2>
+				        <img id="headshot" src={Headshot}/>
+			        </div>
+			        <div id="statement">
+			        	<p>
+			        	Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum bibendum, purus nec facilisis sollicitudin, nunc purus placerat justo, ac euismod est lectus non lectus. Donec elementum, sapien a suscipit feugiat, sapien nisi ultrices lectus, vitae lobortis turpis sapien non arcu. 
+						</p>
+			    	</div>
+			    	<a href="https://github.com/jaredgiangrasso"><FontAwesomeIcon id="info-github-icon" icon={faGithub} size="3x"/></a>
+			    	<a href="/"><FontAwesomeIcon id="envelope-icon" icon={faEnvelope} size="3x"/></a>
+			    </div>
+			  </div>
 	    )
 	}
 }

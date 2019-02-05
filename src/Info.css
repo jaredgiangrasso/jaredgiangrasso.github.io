@@ -1,7 +1,7 @@
 #headshot {
   border-radius: 50%;
-  width: 70px;
-  height: 70px;
+  width: 80px;
+  height: 80px;
   object-fit: cover;
   object-position: 100% 12%;
   margin-top: 20px;
@@ -34,14 +34,21 @@
 
 #links {
 	margin-top: 10%;
-	width: 700px;
+}
+
+#personal-info-container {
+	position: fixed;
+	grid-area: info;
+	z-index: 1;
+	width: 100%;
+	height: 100%;
+	background-color: #F9FFFD;
 }
 
 #personal-info {
-	position: fixed;
-	padding: 10% 4%;
-	grid-area: info;
-	z-index: 1;
+	position: relative;
+	top: 10%;
+	left: 3%;
 }
 
 #icons {
@@ -56,16 +63,28 @@
 }
 
 #info-github-icon {
-	margin-left: 3%;
-	width: 20px;
+	left: 130px;
 }
 
 #envelope-icon {
-	margin-left: 3%;
-	width: 20px;
+	left: 90px;
+}
+
+#envelope-icon:hover {
+	transform: scale(1.1)
+}
+
+#info-github-icon:hover {
+	transform: scale(1.1);
 }
 
 p {
 	margin: 0;
 }
 	
+#info-github-icon, #envelope-icon {
+	color: black;
+	transition: transform .1s ease-in;
+	width: 20px;
+	position: absolute;
+}
