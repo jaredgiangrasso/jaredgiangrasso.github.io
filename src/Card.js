@@ -12,13 +12,15 @@ class Card extends Component {
 	render() {
 		return (
 			<div className='card'>
-				<img id='screen' src={this.props.screen}/>
-				<div id="project-title"> 
-					{this.props.children}
-					<a href={this.props.gitLink}>
-						<FontAwesomeIcon id="github-icon" icon={faGithub} size="3x"/>
-					</a>
-				</div>
+				<a href={this.props.gitLink}>
+					<img id='screen' src={this.props.screen}/>
+				</a>
+				<a href={this.props.gitLink}>
+					<div id="project-title"> 
+						{this.props.children}
+							<FontAwesomeIcon id="github-icon" icon={faGithub} size="3x"/>
+					</div>
+				</a>
 			</div>
 		)
 	}
