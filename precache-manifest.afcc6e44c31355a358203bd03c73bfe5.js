@@ -16,23 +16,27 @@ self.__precacheManifest = [
     "url": "/static/media/TEMP_Headshot.c2c55354.jpg"
   },
   {
+    "revision": "d952f26f61be01c13b17c08972f1d7cc",
+    "url": "/static/media/Jared_Giangrasso_Resume.d952f26f.pdf"
+  },
+  {
     "revision": "229c360febb4351a89df",
     "url": "/static/js/runtime~main.229c360f.js"
   },
   {
-    "revision": "462270817b4797eff657",
-    "url": "/static/js/main.46227081.chunk.js"
+    "revision": "64c76c0289a87069bba3",
+    "url": "/static/js/main.64c76c02.chunk.js"
   },
   {
-    "revision": "61edec513a048369d829",
-    "url": "/static/js/1.61edec51.chunk.js"
+    "revision": "35d5f88e1868fa0c9346",
+    "url": "/static/js/1.35d5f88e.chunk.js"
   },
   {
-    "revision": "462270817b4797eff657",
-    "url": "/static/css/main.9df78944.chunk.css"
+    "revision": "64c76c0289a87069bba3",
+    "url": "/static/css/main.428816de.chunk.css"
   },
   {
-    "revision": "f24fbfbba3ed3b24c0077e4724545414",
+    "revision": "8cb725d776f6749caba84ef49b389da4",
     "url": "/index.html"
   }
 ];
