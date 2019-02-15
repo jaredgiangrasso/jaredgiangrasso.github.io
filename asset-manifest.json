@@ -1,18 +1,18 @@
 {
   "main.css": "/static/css/main.428816de.chunk.css",
-  "main.js": "/static/js/main.64c76c02.chunk.js",
-  "main.js.map": "/static/js/main.64c76c02.chunk.js.map",
+  "main.js": "/static/js/main.700cdd04.chunk.js",
+  "main.js.map": "/static/js/main.700cdd04.chunk.js.map",
   "static/js/1.35d5f88e.chunk.js": "/static/js/1.35d5f88e.chunk.js",
   "static/js/1.35d5f88e.chunk.js.map": "/static/js/1.35d5f88e.chunk.js.map",
   "runtime~main.js": "/static/js/runtime~main.229c360f.js",
   "runtime~main.js.map": "/static/js/runtime~main.229c360f.js.map",
-  "static/media/TEMP_Headshot.jpg": "/static/media/TEMP_Headshot.c2c55354.jpg",
+  "static/media/Headshot.jpeg": "/static/media/Headshot.12197298.jpeg",
   "static/media/penguin-screen-small.png": "/static/media/penguin-screen-small.52c8ae9d.png",
   "static/media/practice-screen-small.png": "/static/media/practice-screen-small.e294254c.png",
   "static/media/weather-screen-small.png": "/static/media/weather-screen-small.def32014.png",
   "static/media/Jared_Giangrasso_Resume.pdf": "/static/media/Jared_Giangrasso_Resume.d952f26f.pdf",
   "static/css/main.428816de.chunk.css.map": "/static/css/main.428816de.chunk.css.map",
   "index.html": "/index.html",
-  "precache-manifest.afcc6e44c31355a358203bd03c73bfe5.js": "/precache-manifest.afcc6e44c31355a358203bd03c73bfe5.js",
+  "precache-manifest.9da1fe82399f09821551cca79a1450cc.js": "/precache-manifest.9da1fe82399f09821551cca79a1450cc.js",
   "service-worker.js": "/service-worker.js"
 }
