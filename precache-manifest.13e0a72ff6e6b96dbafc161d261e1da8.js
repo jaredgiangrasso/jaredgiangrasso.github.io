@@ -4,8 +4,8 @@ self.__precacheManifest = [
     "url": "/static/media/Jared_Giangrasso_Resume.6888541d.pdf"
   },
   {
-    "revision": "8f477222f905e0b2d54d",
-    "url": "/static/css/main.3945a084.chunk.css"
+    "revision": "ef34f4f759e9882d062d",
+    "url": "/static/css/main.5790e82d.chunk.css"
   },
   {
     "revision": "148f7faa14d2f9efa823",
@@ -20,8 +20,8 @@ self.__precacheManifest = [
     "url": "/static/media/Headshot.12197298.jpeg"
   },
   {
-    "revision": "8f477222f905e0b2d54d",
-    "url": "/static/js/main.8f477222.chunk.js"
+    "revision": "ef34f4f759e9882d062d",
+    "url": "/static/js/main.ef34f4f7.chunk.js"
   },
   {
     "revision": "52c8ae9d1d9daea72e3fa1b5d8ee8251",
@@ -40,7 +40,7 @@ self.__precacheManifest = [
     "url": "/static/media/site.053100cb.webmanifest"
   },
   {
-    "revision": "024066ac9233c289fae6c72bc8e797e8",
+    "revision": "a5f1a346fa06fbf7061869553de4c896",
     "url": "/index.html"
   }
 ];
