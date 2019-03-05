@@ -40,7 +40,7 @@ self.__precacheManifest = [
     "url": "/static/media/site.053100cb.webmanifest"
   },
   {
-    "revision": "ffcf952c8e7f129b97ccc63deba08d82",
+    "revision": "44f806575e0ccfc89ea5a1b02bf2fb18",
     "url": "/index.html"
   }
 ];
