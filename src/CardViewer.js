@@ -10,11 +10,11 @@ class CardViewer extends Component {
 		return (
 			<div id="cardViewer">
 				<Card screen={weatherScreen} gitLink='https://github.com/jaredgiangrasso/weather-app'>
-					{<h2>NODE.JS/REACT/DARK SKIES WEATHER API</h2>}
+					{<h2>REACT/DARK SKIES WEATHER API</h2>}
 					{<h1>Weather Application</h1>}
 				</Card>
 				<Card screen={penguinScreen} gitLink='https://github.com/jaredgiangrasso/penguin'>
-					{<h2>NODE.JS/REACT/PENGUIN BOOKS API</h2>}
+					{<h2>REACT/PENGUIN BOOKS API</h2>}
 					{<h1>Penguin Book Search</h1>}
 				</Card>
 				<Card screen={portfolioScreen} gitLink='https://github.com/jaredgiangrasso/242-practice-site'>
