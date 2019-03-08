@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
-import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
-import Headshot from './Images/TEMP_Headshot.jpg';
+import { faFile } from '@fortawesome/free-solid-svg-icons';
+import Headshot from './Images/Headshot.jpeg';
+import resume from './Images/Jared_Giangrasso_Resume.pdf';
 import './Info.css';
 
 class Info extends Component {
@@ -17,11 +18,11 @@ class Info extends Component {
 			        </div>
 			        <div id="statement">
 			        	<p>
-			        	Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum bibendum, purus nec facilisis sollicitudin, nunc purus placerat justo, ac euismod est lectus non lectus. Donec elementum, sapien a suscipit feugiat, sapien nisi ultrices lectus, vitae lobortis turpis sapien non arcu. 
+			        	Web developer based in Brooklyn, New York.
 						</p>
 			    	</div>
 			    	<a href="https://github.com/jaredgiangrasso"><FontAwesomeIcon id="info-github-icon" icon={faGithub} size="3x"/></a>
-			    	<a href="/"><FontAwesomeIcon id="envelope-icon" icon={faEnvelope} size="3x"/></a>
+			    	<a href={resume} download="Jared_Giangrasso_Resume"><FontAwesomeIcon id="file-icon" icon={faFile} size="3x"/></a>
 			    </div>
 			  </div>
 	    )

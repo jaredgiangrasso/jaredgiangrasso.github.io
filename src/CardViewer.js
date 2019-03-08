@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import penguinScreen from './Images/penguin-screen.png';
-import portfolioScreen from './Images/practice-screen.png';
-import weatherScreen from './Images/weather-screen.png';
+import penguinScreen from './Images/penguin-screen-small.png';
+import portfolioScreen from './Images/practice-screen-small.png';
+import weatherScreen from './Images/weather-screen-small.png';
 import './CardViewer.css';
 import Card from './Card';
 

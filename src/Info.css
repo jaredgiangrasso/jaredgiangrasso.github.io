@@ -51,6 +51,10 @@
 	left: 3%;
 }
 
+#info-location {
+	font-weight: bold;
+}
+
 #icons {
 	margin-left: 115%;
 	margin-top: 10px;
@@ -63,14 +67,16 @@
 }
 
 #info-github-icon {
-	left: 130px;
+	left: 135px;
+	width: 20px;
 }
 
-#envelope-icon {
-	left: 90px;
+#file-icon {
+	left: 105px;
+	width: 15px;
 }
 
-#envelope-icon:hover {
+#file-icon:hover {
 	transform: scale(1.1)
 }
 
@@ -82,9 +88,8 @@ p {
 	margin: 0;
 }
 	
-#info-github-icon, #envelope-icon {
+#info-github-icon, #file-icon {
 	color: black;
 	transition: transform .1s ease-in;
-	width: 20px;
 	position: absolute;
 }
