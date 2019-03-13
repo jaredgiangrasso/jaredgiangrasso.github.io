@@ -44,6 +44,11 @@
 		font-size: 12px;
 	}
 
+	#github-icon {
+		font-size: 10px;
+		bottom: 4%;
+	}
+
 	#file-icon {
 		left: 95px;
 		margin-top: -7px;
@@ -86,6 +91,11 @@
 		margin-top: 25%;
 		width: 90%;
 		right: 0;
+	}
+
+	#github-icon {
+		font-size: 9px;
+		bottom: 6%;
 	}
 
 	#personal-info {
@@ -176,6 +186,11 @@
 	#project-title {
 		font-size: 8px;
 		bottom: 3%;
+	}
+
+	#github-icon {
+		font-size: 7px;
+		bottom: 4.5%;
 	}
 
 	#cardViewer {

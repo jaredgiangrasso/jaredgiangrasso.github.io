@@ -45,8 +45,8 @@ h2 {
 
 #github-icon {
 	position: absolute;
-	bottom: 0;
-	right: 0;
-	width: 25px;
+	bottom: 3%;
+	right: 8%;
+	font-size: 13px;
 	color: black;
 }

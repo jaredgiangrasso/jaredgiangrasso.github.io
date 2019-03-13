@@ -12,14 +12,16 @@ class Card extends Component {
 	render() {
 		return (
 			<div className='card'>
-				<a href={this.props.gitLink}>
+				<a href={this.props.demoLink ? this.props.demoLink : this.props.gitLink}>
 					<img id='screen' src={this.props.screen}/>
 				</a>
-				<a href={this.props.gitLink}>
+				<a href={this.props.demoLink ? this.props.demoLink : this.props.gitLink}>
 					<div id="project-title"> 
 						{this.props.children}
-							<FontAwesomeIcon id="github-icon" icon={faGithub} size="3x"/>
 					</div>
+				</a>
+				<a id="github-icon" href={this.props.gitLink}>
+					<FontAwesomeIcon icon={faGithub} size="3x"/>
 				</a>
 			</div>
 		)

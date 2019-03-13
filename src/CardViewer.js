@@ -9,7 +9,7 @@ class CardViewer extends Component {
 	render() {
 		return (
 			<div id="cardViewer">
-				<Card screen={weatherScreen} gitLink='https://github.com/jaredgiangrasso/weather-app'>
+				<Card screen={weatherScreen} demoLink='https://hidden-bayou-14746.herokuapp.com/' gitLink='https://github.com/jaredgiangrasso/weather-app'>
 					{<h2>REACT/DARK SKIES WEATHER API</h2>}
 					{<h1>Weather Application</h1>}
 				</Card>
