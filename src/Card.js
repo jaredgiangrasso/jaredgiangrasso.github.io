@@ -13,7 +13,7 @@ class Card extends Component {
 		return (
 			<div className='card'>
 				<a href={this.props.demoLink ? this.props.demoLink : this.props.gitLink}>
-					<video id="screen" height="450" poster={this.props.still} loop autoPlay>
+					<video id="screen" poster={this.props.still} loop autoPlay>
 					    <source src={this.props.screen} type="video/mp4" />
 					</video>
 				</a>
