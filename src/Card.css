@@ -39,7 +39,7 @@ h2 {
 	position: relative;
 	top: 3%;
 	left: 7.5%;
-	filter: drop-shadow(0 5px 5px gray);
+	filter: drop-shadow(2px 5px 5px rgb(0, 0, 0, .25));
 }
 
 #github-icon {
