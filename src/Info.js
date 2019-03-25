@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
 import { faFile } from '@fortawesome/free-solid-svg-icons';
-import Headshot from './Images/Headshot.jpeg';
+import Headshot from './Images/Headshot.png';
 import resume from './Images/Jared_Giangrasso_Resume.pdf';
 import './Info.css';
 
@@ -10,6 +10,7 @@ class Info extends Component {
 	render() {
 		return (
 			<div id='personal-info-container'>
+				<div id='background-texture'></div>
 				<div id="personal-info">
 					<div id='links'>
 				        <h1 id="first">Jared</h1>
