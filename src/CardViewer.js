@@ -16,7 +16,7 @@ class CardViewer extends Component {
 					{<h2>REACT/DARK SKIES WEATHER API</h2>}
 					{<h1>Weather Application</h1>}
 				</Card>
-				<Card still={penguinStill} screen={penguinScreen} gitLink='https://github.com/jaredgiangrasso/penguin'>
+				<Card still={penguinStill} screen={penguinScreen} demoLink='https://nameless-crag-80623.herokuapp.com/' gitLink='https://github.com/jaredgiangrasso/penguin'>
 					{<h2>REACT/PENGUIN BOOKS API</h2>}
 					{<h1>Penguin Book Search</h1>}
 				</Card>
