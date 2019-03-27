@@ -4,7 +4,7 @@ self.__precacheManifest = [
     "url": "/static/media/penguin-screen-small.52c8ae9d.png"
   },
   {
-    "revision": "d20e95ff06893471a0ce",
+    "revision": "b09bab45076f409c8ca9",
     "url": "/static/css/main.406c2341.chunk.css"
   },
   {
@@ -20,16 +20,16 @@ self.__precacheManifest = [
     "url": "/static/media/Headshot.7b0244cb.png"
   },
   {
-    "revision": "7b4287309255b7d29b7302d1411b4de3",
-    "url": "/static/media/Jared_Giangrasso_Resume.7b428730.pdf"
+    "revision": "50ced52f721d5b4511fb6b95d3793ec5",
+    "url": "/static/media/Jared_Giangrasso_Resume.50ced52f.pdf"
   },
   {
     "revision": "dec61c8482209cbbda97353e2eddfb10",
     "url": "/static/media/penguin_trimmed.dec61c84.mp4"
   },
   {
-    "revision": "d20e95ff06893471a0ce",
-    "url": "/static/js/main.d20e95ff.chunk.js"
+    "revision": "b09bab45076f409c8ca9",
+    "url": "/static/js/main.b09bab45.chunk.js"
   },
   {
     "revision": "51e1a0282844512f8ecaa22b09087325",
@@ -56,7 +56,7 @@ self.__precacheManifest = [
     "url": "/static/media/Texture.6eda72ff.png"
   },
   {
-    "revision": "4b1782c3690b94cea1ce972a525ca85a",
+    "revision": "f0f957877176d16d6328ab0de0ee31e9",
     "url": "/index.html"
   }
 ];
