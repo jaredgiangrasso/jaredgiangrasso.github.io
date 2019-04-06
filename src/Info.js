@@ -10,7 +10,6 @@ class Info extends Component {
 	render() {
 		return (
 			<div id='personal-info-container'>
-				<div id='background-texture'></div>
 				<div id="personal-info">
 					<div id='name-headshot'>
 				        <h1 id="first">Jared</h1>
