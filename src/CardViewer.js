@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import lunchboxStill from './Images/lunchboxScreen.png';
+import trendingScreen from './Images/trending-screen.mp4';
+import trendingStill from './Images/trending-screen.png';
 import penguinScreen from './Images/penguin_trimmed.mp4';
 import penguinStill from './Images/penguin-screen-small.png';
 import podcastScreen from './Images/podcast_trimmed.mp4';
@@ -10,26 +13,62 @@ import weatherStill from './Images/weather-screen-small.png';
 import './CardViewer.css';
 import Card from './Card';
 
+const cardContents = [
+	{
+		still: lunchboxStill,
+		demoLink: 'https://lunchbox.io/',
+		tools: 'REACT/ANTD/NIVO',
+		description: 'Ordering Platform Admin Dashboard',
+	},
+	{
+		still: trendingStill,
+		screen: trendingScreen,
+		demoLink: 'https://trendingtees.io/',
+		tools: 'HTML/CSS/REACT',
+		description: 'Automated E-commerce',
+	},
+	{
+		still: weatherStill,
+		screen: weatherScreen,
+		demoLink: 'https://hidden-bayou-14746.herokuapp.com/',
+		gitLink: 'https://github.com/jaredgiangrasso/weather-app',
+		tools: 'REACT/DARK SKIES WEATHER API',
+		description: 'Weather Application',
+	},
+	{
+		still: podcastStill,
+		screen: podcastScreen,
+		gitLink: 'https://github.com/jaredgiangrasso/Podcast-REST-API',
+		tools: 'NODE.JS/MONGODB/EXPRESS/REACT',
+		description: 'Podcast RESTful API/Catalogue',
+	},
+	{
+		still: penguinStill,
+		screen: penguinScreen,
+		demoLink: 'https://nameless-crag-80623.herokuapp.com/',
+		gitLink: 'https://github.com/jaredgiangrasso/penguin',
+		tools: 'REACT/PENGUIN BOOKS API',
+		description: 'Penguin Book Search',
+	},
+	{
+		still: portfolioStill,
+		screen: portfolioScreen,
+		gitLink: 'https://github.com/jaredgiangrasso/242-practice-site',
+		tools: 'HTML/CSS/REACT',
+		description: 'Sample Portfolio Site',
+	},
+]
+
 class CardViewer extends Component {
 	render() {
 		return (
 			<div id="cardViewer">
-				<Card still={weatherStill} screen={weatherScreen} demoLink='https://hidden-bayou-14746.herokuapp.com/' gitLink='https://github.com/jaredgiangrasso/weather-app'>
-					{<h2>REACT/DARK SKIES WEATHER API</h2>}
-					{<h1>Weather Application</h1>}
-				</Card>
-				<Card still={podcastStill} screen={podcastScreen} gitLink='https://github.com/jaredgiangrasso/Podcast-REST-API'>
-					{<h2>NODE.JS/MONGODB/EXPRESS/REACT</h2>}
-					{<h1>Podcast RESTful API/Catalogue</h1>}
-				</Card>
-				<Card still={penguinStill} screen={penguinScreen} demoLink='https://nameless-crag-80623.herokuapp.com/' gitLink='https://github.com/jaredgiangrasso/penguin'>
-					{<h2>REACT/PENGUIN BOOKS API</h2>}
-					{<h1>Penguin Book Search</h1>}
-				</Card>
-				<Card still={portfolioStill} screen={portfolioScreen} gitLink='https://github.com/jaredgiangrasso/242-practice-site'>
-					{<h2>HTML/CSS/REACT</h2>}
-					{<h1>Sample Portfolio Site</h1>}
-				</Card>
+				{cardContents.map((cardContent, i) => (
+					<Card
+						{...cardContent}
+						idx={i}
+					/>
+				))}
 			</div>
 		)
 	}
