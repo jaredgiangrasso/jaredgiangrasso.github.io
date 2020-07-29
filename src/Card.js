@@ -9,9 +9,7 @@ class Card extends Component {
 
 		return (
 			<div className='card'>
-				<div id="card-index">
-					<h1>#00{idx + 1}</h1>
-				</div>
+				<div id="card-index">#00{idx + 1}</div>
 				<a href={demoLink ? demoLink : gitLink} target="_blank" rel='noreferrer noopener'>
 					<video id="screen" poster={still} loop autoPlay>
 					    <source src={screen} type="video/mp4" />

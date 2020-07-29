@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import lunchboxStill from './Images/lunchboxScreen.png';
-import trendingScreen from './Images/trending-screen.mp4';
+import trendingScreen from './Images/trending-screen.mov';
 import trendingStill from './Images/trending-screen.png';
 import penguinScreen from './Images/penguin_trimmed.mp4';
 import penguinStill from './Images/penguin-screen-small.png';
