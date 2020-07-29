@@ -4,27 +4,28 @@ import { faGithub } from '@fortawesome/free-brands-svg-icons';
 import './Card.css';
 
 class Card extends Component {
-	constructor(props){
-		super(props);
-		
-	}
-
 	render() {
+		const { still, screen, demoLink, gitLink, tools, description, idx } = this.props;
+
 		return (
 			<div className='card'>
-				<a href={this.props.demoLink ? this.props.demoLink : this.props.gitLink}>
-					<video id="screen" poster={this.props.still} loop autoPlay>
-					    <source src={this.props.screen} type="video/mp4" />
+				<div id="card-index">#00{idx + 1}</div>
+				<a href={demoLink ? demoLink : gitLink} target="_blank" rel='noreferrer noopener'>
+					<video id="screen" poster={still} loop autoPlay>
+					    <source src={screen} type="video/mp4" />
 					</video>
 				</a>
-				<a href={this.props.demoLink ? this.props.demoLink : this.props.gitLink}>
+				<a href={demoLink ? demoLink : gitLink} target="_blank" rel='noreferrer noopener'>
 					<div id="project-title"> 
-						{this.props.children}
+						<h2>{tools}</h2>
+						<h1>{description}</h1>
 					</div>
 				</a>
-				<a id="github-icon" href={this.props.gitLink}>
+				{gitLink && (
+				<a id="github-icon" href={gitLink} target="_blank" rel='noreferrer noopener'>
 					<FontAwesomeIcon icon={faGithub} size="3x"/>
 				</a>
+				)}
 			</div>
 		)
 	}
