@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
 import { faFile } from '@fortawesome/free-solid-svg-icons';
-import Headshot from './Images/Headshot.png';
+import Headshot from './Images/Headshot_Square.png';
 import resume from './Images/Jared_Giangrasso_Resume.pdf';
 import './Info.css';
 

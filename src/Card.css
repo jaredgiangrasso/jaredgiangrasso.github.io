@@ -25,17 +25,26 @@ h2 {
 	font-weight: lighter;
 }
 
-#card-index {
+#card-header {
 	position: absolute;
 	width: 85%;
 	top: 3.5%;
 	left: 7%;
+	display: flex;
+	justify-content: space-between;
 	font-size: 18px;
 	font-weight: 700;
-	color: black;
 }
 
 #project-title {
+	color: black;
+}
+
+#card-index {
+	color: #7B7B7B;
+}
+
+#project-info {
 	position: absolute;
 	width: 85%;
 	bottom: 3%;
