@@ -1,15 +1,15 @@
 self.__precacheManifest = [
   {
-    "revision": "6b17c2f4dfb09bf0521f",
-    "url": "/static/css/main.e4968c71.chunk.css"
+    "revision": "a6ae1d697d156567ee6f",
+    "url": "/static/css/main.3b2d1bdb.chunk.css"
   },
   {
-    "revision": "6b17c2f4dfb09bf0521f",
-    "url": "/static/js/main.6b17c2f4.chunk.js"
+    "revision": "a6ae1d697d156567ee6f",
+    "url": "/static/js/main.a6ae1d69.chunk.js"
   },
   {
-    "revision": "8b72462171e315d54263",
-    "url": "/static/js/1.8b724621.chunk.js"
+    "revision": "843fd4c4daecca75fac7",
+    "url": "/static/js/1.843fd4c4.chunk.js"
   },
   {
     "revision": "229c360febb4351a89df",
@@ -48,6 +48,10 @@ self.__precacheManifest = [
     "url": "/static/media/trending-screen.d9865a75.png"
   },
   {
+    "revision": "9b3d076c9ace772867531642cb8b4153",
+    "url": "/static/media/constellation-screen.9b3d076c.png"
+  },
+  {
     "revision": "053100cb84a50d2ae7f5492f7dd7f25e",
     "url": "/static/media/site.053100cb.webmanifest"
   },
@@ -56,7 +60,7 @@ self.__precacheManifest = [
     "url": "/static/media/Texture.6eda72ff.png"
   },
   {
-    "revision": "b8f0b910074a0c2d5ae650c0b9c14030",
+    "revision": "9274dcd76028f99bb999d1298fc783d5",
     "url": "/index.html"
   }
 ];
