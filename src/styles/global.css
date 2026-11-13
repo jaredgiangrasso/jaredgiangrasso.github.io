@@ -1,3 +1,5 @@
+/* Site-wide base styles (formerly src/index.css). */
+
 body {
   margin: 0;
   padding: 0;
@@ -11,4 +13,17 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+
+/* Keep scrollIntoView / anchor jumps clear of the fixed mobile header. */
+@media only screen and (max-width: 900px) {
+  html {
+    scroll-padding-top: 240px;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  html {
+    scroll-padding-top: 210px;
+  }
 }

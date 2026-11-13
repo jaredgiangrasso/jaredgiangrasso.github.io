@@ -1,0 +1,22 @@
+---
+/**
+ * Renders a Font Awesome icon to inline SVG at build time (no runtime JS).
+ * Produces the same markup react-fontawesome did, so FA's CSS (injected in Base.astro) applies.
+ */
+import { icon, type IconDefinition } from "@fortawesome/fontawesome-svg-core";
+
+interface Props {
+  icon: IconDefinition;
+  /** FA size modifier, e.g. "lg" or "3x". */
+  size?: string;
+  class?: string;
+  /** Use when a rule must out-rank FA's two-class selectors (e.g. `.svg-inline--fa.fa-w-12`). */
+  id?: string;
+}
+
+const { icon: definition, size, class: className, id } = Astro.props;
+const classes = [size && `fa-${size}`, className].filter(Boolean) as string[];
+const [svg] = icon(definition, { classes, attributes: id ? { id } : {} }).html;
+---
+
+<Fragment set:html={svg} />

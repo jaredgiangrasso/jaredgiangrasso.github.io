@@ -144,6 +144,17 @@ test.describe("projects", () => {
     await expect(video).toHaveAttribute("poster", /trending-screen/);
     await expect(video).toHaveAttribute("loop", "");
     await expect(video).toHaveAttribute("autoplay", "");
+    // Browsers only autoplay muted video; playsinline keeps iOS from going fullscreen.
+    await expect(video).toHaveJSProperty("muted", true);
+    await expect(video).toHaveAttribute("playsinline", "");
+  });
+
+  test("only the screen recording is a <video>; other screenshots are images", async ({ page }) => {
+    await expect(page.locator("video")).toHaveCount(projects.filter((p) => p.slug === "trending-screen").length);
+    for (const p of projects.filter((p) => p.slug !== "trending-screen")) {
+      await expect(page.locator(`img[src*="${p.slug}"]`), p.name).toHaveCount(1);
+      await expect(page.locator(`img[src*="${p.slug}"]`), p.name).toHaveAttribute("alt", /.+/);
+    }
   });
 });
 
@@ -167,9 +178,9 @@ test.describe("layout behaviour", () => {
     });
   }
 
-  // Known issues with the current implementation (html { overflow: hidden } + an inner scroll container).
-  // To be fixed during the migration; flip these from fixme to test once they pass.
-  test.fixme("desktop: mouse wheel over the intro scrolls the projects", async ({ page }) => {
+  // Regressions from the original CRA layout (html { overflow: hidden } + an inner scroll container),
+  // fixed in the Astro migration by letting the document scroll.
+  test("desktop: mouse wheel over the intro scrolls the projects", async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 900 });
     const box = (await page.getByText("Jared", { exact: true }).boundingBox())!;
     await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
@@ -177,7 +188,7 @@ test.describe("layout behaviour", () => {
     await expect(page.getByText(projects[0].name, { exact: true })).not.toBeInViewport();
   });
 
-  test.fixme("desktop: keyboard (Page Down) scrolls the projects", async ({ page }) => {
+  test("desktop: keyboard (Page Down) scrolls the projects", async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 900 });
     await page.keyboard.press("PageDown");
     await page.keyboard.press("PageDown");

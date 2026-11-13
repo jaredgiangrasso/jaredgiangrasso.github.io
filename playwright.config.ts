@@ -2,10 +2,10 @@ import { defineConfig } from "@playwright/test";
 
 /**
  * Black-box tests for the built site. They never import app code, so the same suite
- * verifies the CRA build today and the Astro build after the migration.
+ * verified both the old CRA build and the Astro build during the migration.
  *
- *   npm test                      build output in ./build (default)
- *   SITE_DIR=dist npm test        any other build output folder
+ *   npm test                      build output in ./dist (default)
+ *   SITE_DIR=some/dir npm test    any other build output folder
  */
 const PORT = 4173;
 
@@ -29,7 +29,7 @@ export default defineConfig({
   },
   webServer: {
     command: "node tests/serve.mjs",
-    env: { PORT: String(PORT), SITE_DIR: process.env.SITE_DIR || "build" },
+    env: { PORT: String(PORT), SITE_DIR: process.env.SITE_DIR || "dist" },
     url: `http://localhost:${PORT}`,
     reuseExistingServer: !process.env.CI,
   },

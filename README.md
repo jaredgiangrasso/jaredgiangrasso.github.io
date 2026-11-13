@@ -1,52 +1,66 @@
 ## Personal Site
 
-This repository contains the source code for Jared Giangrasso’s personal website, built as a single-page React app.
+Source for [jaredgiangrasso.com](https://jaredgiangrasso.com): a single static page built with [Astro](https://astro.build). It ships plain HTML and CSS with no client-side JavaScript.
 
 ### Tech Stack & Infrastructure
 
-- **Frontend**: React (Create React App, `react-scripts`)
-- **Styling & Layout**: Standard CSS (see `src/App.css` and related styles)
-- **Icons**: Font Awesome (`@fortawesome/*` React bindings)
-- **Head / Meta Management**: `react-helmet`
-- **Build Tooling**: `react-scripts` (webpack/Babel under the hood)
-- **Hosting / Deployment**: GitHub Pages (configured via `gh-pages` and the `homepage` field in `package.json`)
+- **Framework**: Astro (static output) with TypeScript
+- **Styling**: component-scoped CSS in each `.astro` file, plus `src/styles/global.css`
+- **Images**: `astro:assets` generates responsive WebP sizes at build time
+- **Icons**: Font Awesome, rendered to inline SVG at build time (no runtime JS)
+- **Tests**: Playwright end-to-end and visual-regression tests against the built site
+- **Hosting**: GitHub Pages (custom domain via `public/CNAME`)
 
-### Getting Started (Local Development)
+### Getting Started
 
-1. **Install dependencies**
-   ```bash
-   npm install
-   ```
-2. **Start the development server**
-   ```bash
-   npm start
-   ```
-   This runs the app in development mode (Create React App default) and opens it at `http://localhost:3000/`. The page reloads automatically as you edit source files.
+Requires Node 22.23.4 or newer.
 
-### Available NPM Scripts
+```bash
+npm install
+npm run dev       # http://localhost:4321
+```
 
-- **`npm start`**: Run the local development server.
-- **`npm test`**: Run the test runner in watch mode (Create React App default).
-- **`npm run build`**: Create a production build in the `build/` directory.
-- **`npm run deploy`**: Build the app and publish the contents of `build/` to GitHub Pages (branch configured in `package.json`).
+### Scripts
 
-### Deployment Details
+| Script | What it does |
+| --- | --- |
+| `npm run dev` | Local dev server with hot reload |
+| `npm run build` | Production build into `dist/` |
+| `npm run preview` | Serve the production build locally |
+| `npm run check` | Type-check `.astro` and `.ts` files |
+| `npm test` | Run Playwright tests against `dist/` (run `npm run build` first) |
+| `npm run test:update` | Regenerate visual baselines. Only do this when a visual change is intended |
+| `npm run deploy` | Build and publish `dist/` to GitHub Pages |
 
-- **Target**: GitHub Pages, with a custom domain configured for `jaredgiangrasso.com`.
-- **Process**:
-  - `npm run build` is executed via the `predeploy` script.
-  - `gh-pages` publishes the `build/` directory to the configured branch (currently `master`).
-  - GitHub Pages serves the static assets, and DNS for the custom domain points to GitHub Pages.
+### Project Structure
 
-### Project Structure (High-Level)
+```
+src/
+  pages/index.astro          page layout (two-column grid, background)
+  layouts/Base.astro         <head>: title, favicons, manifest
+  components/
+    Intro.astro              name, headshot, bio, résumé link
+    ProjectList.astro        projects column
+    ProjectCard.astro        a single project card
+    Icon.astro               Font Awesome icon -> inline SVG
+  data/projects.ts           the project list (edit this to add/change projects)
+  assets/                    images and video processed by Astro
+  styles/global.css          site-wide base styles
+public/                      copied as-is: résumé PDF, favicons, manifest, CNAME
+tests/                       Playwright suite (see below)
+```
 
-- **`src/App.js`**: Top-level React component, sets up document metadata and composes the main sections of the site.
-- **`src/Info.js`, `src/CardViewer.js`**: Core presentation components for profile/info and content cards.
-- **`src/Images/`**: Favicons, icons, and other image assets.
-- **`src/App.css` and related styles**: Global styling and layout.
+**Adding a project:** put the screenshot (and optional screen recording) in `src/assets/projects/`, then add an entry to `src/data/projects.ts`. Also add it to `tests/fixtures.ts`, which is the tests' copy of the site content.
 
-### Development Notes
+### Tests
 
-- This project uses an older version of Create React App and dependencies; if you upgrade Node or major packages, test the dev server and build pipeline carefully.
-- For SEO and social sharing tweaks, update the tags managed by `react-helmet` in `src/App.js` and any related components.
+The tests never import app code. They load the built site in Chrome and check what a visitor gets:
 
+- `tests/site.spec.ts`: content, links, the résumé download, head tags, scrolling behaviour, and no console errors or broken requests.
+- `tests/visual.spec.ts`: screenshots at 1440, 1024, 768 and 390px, at the top of the page and scrolled to the end.
+
+Visual baselines live in `tests/visual.spec.ts-snapshots/`. They are specific to the OS and browser and were generated on Windows with Chrome. To run in CI, switch `playwright.config.ts` to Playwright's bundled Chromium and generate Linux baselines.
+
+### Deployment
+
+`npm run deploy` builds the site and pushes `dist/` to the `master` branch of the `origin` remote (`jaredgiangrasso.github.io`) using `gh-pages`. `public/CNAME` is included in the build, so the custom domain survives each deploy.

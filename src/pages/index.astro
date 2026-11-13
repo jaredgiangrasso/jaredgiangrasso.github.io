@@ -1,0 +1,55 @@
+---
+import Base from "../layouts/Base.astro";
+import Intro from "../components/Intro.astro";
+import ProjectList from "../components/ProjectList.astro";
+---
+
+<Base title="Jared Giangrasso">
+  <div class="app">
+    <Intro />
+    <ProjectList />
+  </div>
+</Base>
+
+<style>
+  .app {
+    font-family: Helvetica;
+    width: 100%;
+    min-height: 100vh;
+    /* clip (not hidden) so the sticky intro keeps working */
+    overflow-x: clip;
+    /* A grid at every width: grid items get a definite height, which the cards' percentage
+       offsets (e.g. the screenshot's `top: 3%`) rely on to resolve as they did originally. */
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-areas: "info" "cards";
+  }
+
+  /* Gradient + texture are pinned to the viewport while the content scrolls over them. */
+  .app::before,
+  .app::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .app::before {
+    background: linear-gradient(135deg, #f9fafb 0%, #e0f2fe 40%, #fef3c7 100%);
+    z-index: -1;
+  }
+
+  .app::after {
+    /* Background pattern from Toptal Subtle Patterns */
+    background: url(../assets/Texture.png);
+    opacity: 0.1;
+    z-index: 0;
+  }
+
+  @media only screen and (min-width: 900px) {
+    .app {
+      grid-template-columns: 40% 60%;
+      grid-template-areas: "info cards";
+    }
+  }
+</style>

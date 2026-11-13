@@ -1,0 +1,227 @@
+---
+import { getImage } from "astro:assets";
+import { faGithub } from "@fortawesome/free-brands-svg-icons";
+import Icon from "./Icon.astro";
+import type { Project } from "../data/projects";
+
+interface Props {
+  project: Project;
+  index: number;
+}
+
+const { project, index } = Astro.props;
+const { name, tools, description, still, video, demoLink, gitLink } = project;
+
+const href = demoLink ?? gitLink;
+// Unlinked projects still render an <a> (a valid placeholder link) so layout is identical.
+const linkAttrs = href ? { href, target: "_blank", rel: "noreferrer noopener" } : {};
+const number = `#${String(index + 1).padStart(3, "0")}`;
+
+// Rendered at ~41vw on desktop and ~77vw on mobile (85% of the card's width).
+const sizes = "(max-width: 900px) 77vw, 41vw";
+const widths = [400, 600, 800, 1200, 1600];
+const eager = index === 0;
+const poster = video ? (await getImage({ src: still, width: 1200 })).src : undefined;
+const image = video ? undefined : await getImage({ src: still, widths, sizes });
+---
+
+<div class="card">
+  <div class="card-header">
+    <h2 class="project-title">{name}</h2>
+    <span class="card-index">{number}</span>
+  </div>
+
+  <a {...linkAttrs}>
+    {
+      video ? (
+        <video class="screen" poster={poster} loop autoplay muted playsinline>
+          <source src={video} type="video/mp4" />
+        </video>
+      ) : (
+        <img
+          class="screen"
+          src={image!.src}
+          srcset={image!.srcSet.attribute}
+          sizes={sizes}
+          width={still.width}
+          height={still.height}
+          style={`aspect-ratio: ${still.width} / ${still.height}`}
+          alt={`${name} screenshot`}
+          loading={eager ? "eager" : "lazy"}
+          decoding="async"
+        />
+      )
+    }
+  </a>
+
+  <a {...linkAttrs}>
+    <div class="project-info">
+      <p class="tools">{tools}</p>
+      <p class="description">{description}</p>
+    </div>
+  </a>
+
+  {
+    gitLink && (
+      <a class="github-icon" href={gitLink} target="_blank" rel="noreferrer noopener" aria-label={`${name} on GitHub`}>
+        <Icon icon={faGithub} size="3x" />
+      </a>
+    )
+  }
+</div>
+
+<style>
+  .card {
+    width: 80%;
+    height: auto;
+    position: relative;
+    margin-top: 10%;
+    margin-bottom: 5%;
+    padding-top: 5%;
+    padding-bottom: 10%;
+    border-radius: 20px;
+
+    background: radial-gradient(circle at top left, rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0.05));
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border: 1px solid rgba(255, 255, 255, 0.55);
+    box-shadow: 0 18px 45px rgba(15, 23, 42, 0.35);
+
+    transition:
+      transform 180ms ease-out,
+      box-shadow 180ms ease-out,
+      border-color 180ms ease-out,
+      background 180ms ease-out;
+    z-index: 1;
+  }
+
+  .card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 26px 60px rgba(15, 23, 42, 0.5);
+    border-color: rgba(255, 255, 255, 0.8);
+    background: radial-gradient(circle at top left, rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0.08));
+  }
+
+  /* Description line (was an <h1>) */
+  .description {
+    margin: 0;
+    margin-bottom: 2px;
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+  /* Stack line (was an <h2>) */
+  .tools {
+    margin: 0;
+    font-size: 15px;
+    font-weight: lighter;
+  }
+
+  .card-header {
+    position: absolute;
+    width: 85%;
+    top: 3.5%;
+    left: 7%;
+    display: flex;
+    justify-content: space-between;
+    font-size: 18px;
+    font-weight: 700;
+  }
+
+  .project-title {
+    margin: 0;
+    font-size: inherit;
+    font-weight: inherit;
+    color: #020617;
+  }
+
+  .card-index {
+    color: #64748b;
+  }
+
+  .project-info {
+    position: absolute;
+    width: 85%;
+    bottom: 3%;
+    left: 7%;
+    font-size: 12px;
+    color: #020617;
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.45);
+  }
+
+  .screen {
+    width: 85%;
+    height: auto;
+    perspective: 100px;
+    position: relative;
+    top: 3%;
+    left: 7.5%;
+    border-radius: 16px;
+    overflow: hidden;
+    filter: drop-shadow(2px 5px 5px rgb(15, 23, 42, 0.4));
+  }
+
+  .github-icon {
+    position: absolute;
+    bottom: 3%;
+    right: 8%;
+    font-size: 13px;
+    color: #020617;
+  }
+
+  @media only screen and (max-width: 900px) {
+    .card {
+      padding-top: 10%;
+    }
+  }
+
+  @media only screen and (max-width: 1200px) {
+    .description {
+      font-size: 15px;
+    }
+
+    .tools {
+      font-size: 12px;
+    }
+
+    .github-icon {
+      font-size: 10px;
+      bottom: 4%;
+    }
+  }
+
+  @media only screen and (max-width: 900px) {
+    .project-info {
+      font-size: 8px;
+      bottom: 5%;
+    }
+
+    .card {
+      margin-top: 5%;
+      width: 90%;
+      right: 0;
+    }
+
+    .github-icon {
+      font-size: 9px;
+      bottom: 6%;
+    }
+  }
+
+  @media only screen and (max-width: 600px) {
+    .project-info {
+      font-size: 8px;
+      bottom: 3%;
+    }
+
+    .github-icon {
+      font-size: 7px;
+      bottom: 4.5%;
+    }
+
+    .project-info .tools,
+    .project-info .description {
+      font-size: 10px;
+    }
+  }
+</style>

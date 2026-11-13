@@ -1,0 +1,286 @@
+---
+import { Image } from "astro:assets";
+import { faFile } from "@fortawesome/free-solid-svg-icons";
+import Icon from "./Icon.astro";
+import headshot from "../assets/Headshot_Square.png";
+---
+
+<div class="intro-pin">
+  <div class="personal-info-container">
+    <div class="personal-info">
+      <div class="name-headshot">
+        <h1 class="name">
+          <span class="first">Jared</span>
+          <span class="second">Giangrasso</span>
+        </h1>
+        <Image
+          class="headshot"
+          src={headshot}
+          alt="Jared Giangrasso"
+          widths={[100, 160, 240]}
+          sizes="(max-width: 900px) 50px, (max-width: 1200px) 70px, 80px"
+          loading="eager"
+        />
+      </div>
+
+      <div class="statement">
+        <p>
+          I'm a full-stack software engineer based in New York. I build scalable web platforms and developer tooling,
+          with experience leading product development from architecture to production.
+        </p>
+        <p class="statement2">
+          Take a look at some of my projects to see what I've worked on, and feel free to follow me over to Github if
+          you're interested in how anything works.
+        </p>
+      </div>
+
+      <div class="resume-cta">
+        <a class="resume-label" href="/Jared_Giangrasso_Resume.pdf" download="Jared_Giangrasso_Resume">
+          <Icon icon={faFile} size="lg" id="file-icon" />
+          <span>Download Resume</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Desktop: the intro is pinned while the document scrolls the projects beside it. */
+  .intro-pin {
+    grid-area: info;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    align-self: start;
+    z-index: 1;
+  }
+
+  .headshot {
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    object-position: 100% 12%;
+    margin-top: 20px;
+    margin-left: 5px;
+    float: left;
+    margin-right: 20px;
+    margin-bottom: 10px;
+    shape-outside: circle(50%);
+  }
+
+  /* The name is a single <h1>; its two lines keep their original styling. */
+  .name {
+    margin: 0;
+    font-size: inherit;
+    font-weight: inherit;
+  }
+
+  .name-headshot {
+    margin-top: 10%;
+  }
+
+  .first {
+    display: block;
+    font-size: 65px;
+    text-transform: uppercase;
+    font-family: Helvetica;
+    margin: 0;
+    line-height: 85%;
+    font-weight: bolder;
+    margin-left: 7px;
+  }
+
+  .second {
+    display: block;
+    margin: 0;
+    font-size: 65px;
+    text-transform: uppercase;
+    font-family: Helvetica;
+    line-height: 85%;
+    font-weight: bolder;
+  }
+
+  .personal-info-container {
+    position: relative;
+    top: 15%;
+    z-index: 1;
+    width: 100%;
+    height: 100vh;
+  }
+
+  .personal-info {
+    position: relative;
+    top: 7%;
+    left: 7%;
+  }
+
+  .statement {
+    width: 100%;
+    max-width: 460px;
+    margin-top: 20px;
+    font-size: 14.7px;
+    color: #020617;
+  }
+
+  .statement p {
+    margin: 0;
+  }
+
+  .statement .statement2 {
+    margin-top: 10px;
+  }
+
+  .resume-cta {
+    margin-top: 16px;
+  }
+
+  .resume-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    text-decoration: none;
+    color: #020617;
+    background: rgba(255, 255, 255, 0.6);
+    border: 1px solid rgba(148, 163, 184, 0.5);
+    box-shadow: 0 4px 10px rgba(15, 23, 42, 0.12);
+    font-weight: 400;
+    font-size: 14px;
+  }
+
+  .resume-label:hover {
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 6px 16px rgba(15, 23, 42, 0.2);
+    transform: translateY(-1px);
+  }
+
+  .resume-label span {
+    margin-left: 0;
+  }
+
+  /* ID selector on purpose: must out-rank Font Awesome's `.svg-inline--fa.fa-w-12` width. */
+  #file-icon {
+    width: 13px;
+    color: #020617;
+    transition: transform 0.1s ease-in;
+  }
+
+  @media only screen and (min-width: 1200px) {
+    .headshot {
+      width: 80px;
+      height: 80px;
+    }
+
+    .statement {
+      font-size: 15.2px;
+    }
+  }
+
+  @media only screen and (max-width: 1200px) {
+    .first,
+    .second {
+      font-size: 55px;
+    }
+
+    .statement {
+      font-size: 14px;
+      width: 380px;
+    }
+
+    .headshot {
+      margin-right: 15px;
+      margin-bottom: 15px;
+      width: 70px;
+      height: 70px;
+    }
+  }
+
+  @media only screen and (max-width: 900px) {
+    /* Mobile: the intro becomes a fixed header and the projects scroll beneath it. */
+    .intro-pin {
+      position: static;
+      height: auto;
+      /* As a grid item this still forms a stacking context; keep the fixed header above the cards. */
+      z-index: 2;
+    }
+
+    .personal-info {
+      position: relative;
+      width: 475px;
+      display: block;
+      margin: 0 auto;
+      left: 0;
+      top: 0;
+    }
+
+    .personal-info-container {
+      position: fixed;
+      top: 0;
+      margin: 0;
+      background-color: #f9fffd;
+      border-bottom: 1px solid lightgray;
+      height: 240px;
+      width: 100%;
+      z-index: 2;
+    }
+
+    .statement {
+      margin-top: 15px;
+      font-size: 12px;
+      width: 470px;
+    }
+
+    #file-icon {
+      width: 15px;
+    }
+
+    .headshot {
+      margin-top: 15px;
+      margin-left: 5px;
+      width: 50px;
+      height: 50px;
+    }
+
+    .first {
+      margin-left: 0.5%;
+    }
+
+    .first,
+    .second {
+      font-size: 30px;
+      margin-left: 10px;
+    }
+
+    .name-headshot {
+      margin-top: 5%;
+    }
+  }
+
+  @media only screen and (max-width: 600px) {
+    .statement {
+      width: 320px;
+    }
+
+    .statement .statement2 {
+      display: none;
+    }
+
+    .personal-info-container {
+      height: 210px;
+    }
+
+    .personal-info {
+      width: 310px;
+    }
+
+    .headshot {
+      margin-bottom: 2px;
+    }
+
+    #file-icon {
+      width: 15px;
+    }
+  }
+</style>

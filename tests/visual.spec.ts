@@ -16,14 +16,21 @@ const viewports = [
   { name: "phone", width: 390, height: 844 },
 ];
 
+/**
+ * Waits for fonts and for every image that should be visible to finish loading.
+ * Lazy images far off-screen never start loading, so each wait is capped; call again after scrolling.
+ */
 async function settle(page: Page) {
   await page.waitForLoadState("networkidle");
   await page.evaluate(async () => {
     await document.fonts.ready;
-    await Promise.all(
-      [...document.images].filter((img) => !img.complete).map((img) => new Promise((r) => (img.onload = img.onerror = r)))
-    );
+    const loaded = (img: HTMLImageElement) =>
+      img.complete && img.naturalWidth > 0
+        ? Promise.resolve()
+        : Promise.race([img.decode().catch(() => {}), new Promise((r) => setTimeout(r, 5000))]);
+    await Promise.all([...document.images].map(loaded));
   });
+  await page.waitForLoadState("networkidle");
 }
 
 // The screen recording may or may not be playing at capture time, so mask it.
@@ -43,6 +50,7 @@ for (const vp of viewports) {
       await page.goto("/");
       await settle(page);
       await page.getByText(projects.at(-1)!.description, { exact: true }).scrollIntoViewIfNeeded();
+      await settle(page); // lazy images near the new scroll position
       await page.mouse.move(0, 0); // no hover state
       await expect(page).toHaveScreenshot(`${vp.name}-end.png`, { mask: masks(page) });
     });
