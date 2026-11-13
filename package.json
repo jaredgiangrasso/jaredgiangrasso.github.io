@@ -16,8 +16,9 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "build": "react-scripts --openssl-legacy-provider build",
+    "test": "playwright test",
+    "test:update": "playwright test --update-snapshots",
     "predeploy": "npm run build",
     "deploy": "gh-pages -b master -d build",
     "eject": "react-scripts eject"
@@ -32,6 +33,7 @@
     "not op_mini all"
   ],
   "devDependencies": {
+    "@playwright/test": "^1.65.0",
     "gh-pages": "^2.0.1"
   }
 }
