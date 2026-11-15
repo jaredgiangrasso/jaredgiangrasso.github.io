@@ -30,7 +30,7 @@ const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 type WorkflowRun = { status: string; conclusion: string | null; html_url: string };
 
 async function followPagesBuild(): Promise<void> {
-  const sha = execSync("git ls-remote origin refs/heads/master").toString().split(/\s/)[0];
+  const sha = execSync("git ls-remote pages refs/heads/master").toString().split(/\s/)[0];
   log(`Deployed commit ${sha.slice(0, 7)} to ${REPO}`);
   let last = "";
   let linked = false;

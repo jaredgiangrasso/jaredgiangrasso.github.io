@@ -67,10 +67,19 @@ Visual baselines live in `tests/visual.spec.ts-snapshots/`. They are specific to
 
 ### Deployment
 
+The site's source and the published site live in two GitHub repos:
+
+| Remote | Repo | Contents |
+| --- | --- | --- |
+| `origin` | `personal-site-dev` | this source code (`git push`) |
+| `pages` | `jaredgiangrasso.github.io` | the built site that GitHub Pages serves (`npm run deploy` only) |
+
+In a fresh clone, add the deploy remote once: `git remote add pages https://github.com/jaredgiangrasso/jaredgiangrasso.github.io.git`.
+
 `npm run deploy` runs three steps:
 
 1. **predeploy**: type-check, build and run the full test suite. Any failure stops the deploy.
-2. **deploy**: push `dist/` to the `master` branch of the `origin` remote (`jaredgiangrasso.github.io`) using `gh-pages`.
+2. **deploy**: push `dist/` to the `master` branch of the `pages` remote (`jaredgiangrasso.github.io`) using `gh-pages`.
 3. **postdeploy**: `scripts/wait-for-deploy.ts` follows the GitHub Pages build for the pushed commit, logging its status and a link to the run. It fails straight away if the build fails, then waits for the live site to serve the new build (usually 1–2 minutes in total). After that, the smoke tests in `tests/live/` run.
 
 Two files in `public/` matter for GitHub Pages:
