@@ -28,9 +28,10 @@ npm run dev       # http://localhost:4321
 | `npm run build` | Production build into `dist/` |
 | `npm run preview` | Serve the production build locally |
 | `npm run check` | Type-check `.astro` and `.ts` files |
-| `npm test` | Run Playwright tests against `dist/` (run `npm run build` first) |
+| `npm test` | Build, then run the Playwright tests against the build |
 | `npm run test:update` | Regenerate visual baselines. Only do this when a visual change is intended |
-| `npm run deploy` | Build and publish `dist/` to GitHub Pages |
+| `npm run test:live` | Check the live site (also runs automatically after a deploy) |
+| `npm run deploy` | Type-check and test, publish `dist/` to GitHub Pages, then check the live site |
 
 ### Project Structure
 
@@ -46,21 +47,32 @@ src/
   data/projects.ts           the project list (edit this to add/change projects)
   assets/                    images and video processed by Astro
   styles/global.css          site-wide base styles
-public/                      copied as-is: résumé PDF, favicons, manifest, CNAME
+public/                      copied as-is: résumé PDF, favicons, manifest, CNAME, .nojekyll
 tests/                       Playwright suite (see below)
+  live/                      post-deploy checks against the real site
 ```
 
-**Adding a project:** put the screenshot (and optional screen recording) in `src/assets/projects/`, then add an entry to `src/data/projects.ts`. Also add it to `tests/fixtures.ts`, which is the tests' copy of the site content.
+**Adding a project:** put the screenshot in `src/assets/projects/`, then add an entry to `src/data/projects.ts`. Also add it to `tests/fixtures.ts`, which is the tests' copy of the site content.
 
 ### Tests
 
-The tests never import app code. They load the built site in Chrome and check what a visitor gets:
+The tests never import app code. `npm test` builds the site, serves it with `astro preview` on port 4329, and checks in Chrome what a visitor gets. Stop any other `astro preview` first; Astro only allows one per project.
 
 - `tests/site.spec.ts`: content, links, the résumé download, head tags, scrolling behaviour, and no console errors or broken requests.
-- `tests/visual.spec.ts`: screenshots at 1440, 1024, 768 and 390px, at the top of the page and scrolled to the end.
+- `tests/visual.spec.ts`: screenshots at 1440, 1024, 768 and 390px: at the top, scrolled to the last project, and at the very bottom.
+- `tests/live/`: run against https://jaredgiangrasso.com after each deploy (config: `playwright.live.config.ts`). It waits until GitHub Pages serves the new build, then checks that every asset loads, the page is styled, and the résumé downloads.
 
 Visual baselines live in `tests/visual.spec.ts-snapshots/`. They are specific to the OS and browser and were generated on Windows with Chrome. To run in CI, switch `playwright.config.ts` to Playwright's bundled Chromium and generate Linux baselines.
 
 ### Deployment
 
-`npm run deploy` builds the site and pushes `dist/` to the `master` branch of the `origin` remote (`jaredgiangrasso.github.io`) using `gh-pages`. `public/CNAME` is included in the build, so the custom domain survives each deploy.
+`npm run deploy` runs three steps:
+
+1. **predeploy**: type-check, build and run the full test suite. Any failure stops the deploy.
+2. **deploy**: push `dist/` to the `master` branch of the `origin` remote (`jaredgiangrasso.github.io`) using `gh-pages`.
+3. **postdeploy**: wait for GitHub Pages to publish (usually 1–2 minutes), then run the live checks.
+
+Two files in `public/` matter for GitHub Pages:
+
+- `CNAME` keeps the custom domain on each deploy.
+- `.nojekyll` stops Pages from running the site through Jekyll, which would drop the `_astro/` folder (all CSS and images). `gh-pages -t` is what makes it include this dotfile.

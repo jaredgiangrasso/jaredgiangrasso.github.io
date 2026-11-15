@@ -10,7 +10,7 @@ interface Props {
 }
 
 const { project, index } = Astro.props;
-const { name, tools, description, still, video, demoLink, gitLink } = project;
+const { name, tools, description, still, demoLink, gitLink } = project;
 
 const href = demoLink ?? gitLink;
 // Unlinked projects still render an <a> (a valid placeholder link) so layout is identical.
@@ -21,8 +21,7 @@ const number = `#${String(index + 1).padStart(3, "0")}`;
 const sizes = "(max-width: 900px) 77vw, 41vw";
 const widths = [400, 600, 800, 1200, 1600];
 const eager = index === 0;
-const poster = video ? (await getImage({ src: still, width: 1200 })).src : undefined;
-const image = video ? undefined : await getImage({ src: still, widths, sizes });
+const image = await getImage({ src: still, widths, sizes });
 ---
 
 <div class="card">
@@ -32,26 +31,18 @@ const image = video ? undefined : await getImage({ src: still, widths, sizes });
   </div>
 
   <a {...linkAttrs}>
-    {
-      video ? (
-        <video class="screen" poster={poster} loop autoplay muted playsinline>
-          <source src={video} type="video/mp4" />
-        </video>
-      ) : (
-        <img
-          class="screen"
-          src={image!.src}
-          srcset={image!.srcSet.attribute}
-          sizes={sizes}
-          width={still.width}
-          height={still.height}
-          style={`aspect-ratio: ${still.width} / ${still.height}`}
-          alt={`${name} screenshot`}
-          loading={eager ? "eager" : "lazy"}
-          decoding="async"
-        />
-      )
-    }
+    <img
+      class="screen"
+      src={image.src}
+      srcset={image.srcSet.attribute}
+      sizes={sizes}
+      width={still.width}
+      height={still.height}
+      style={`aspect-ratio: ${still.width} / ${still.height}`}
+      alt={`${name} screenshot`}
+      loading={eager ? "eager" : "lazy"}
+      decoding="async"
+    />
   </a>
 
   <a {...linkAttrs}>

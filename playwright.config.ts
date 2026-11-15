@@ -1,16 +1,18 @@
 import { defineConfig } from "@playwright/test";
 
 /**
- * Black-box tests for the built site. They never import app code, so the same suite
- * verified both the old CRA build and the Astro build during the migration.
+ * Black-box tests for the built site. They never import app code: they load the page in Chrome
+ * and check what a visitor gets. `npm test` builds the site first (see webServer below).
  *
- *   npm test                      build output in ./dist (default)
- *   SITE_DIR=some/dir npm test    any other build output folder
+ * The post-deploy check against the live site has its own config: playwright.live.config.ts.
  */
-const PORT = 4173;
+// Uncommon port on purpose; with reuseExistingServer off, a clash fails loudly instead of
+// silently testing whatever else is listening.
+const PORT = 4329;
 
 export default defineConfig({
   testDir: "./tests",
+  testIgnore: "live/**",
   fullyParallel: true,
   reporter: [["list"], ["html", { open: "never" }]],
   use: {
@@ -28,9 +30,10 @@ export default defineConfig({
     },
   },
   webServer: {
-    command: "node tests/serve.mjs",
-    env: { PORT: String(PORT), SITE_DIR: process.env.SITE_DIR || "dist" },
+    // Always test a fresh production build, served by Astro's own preview server.
+    command: `npm run build && npx astro preview --port ${PORT}`,
     url: `http://localhost:${PORT}`,
-    reuseExistingServer: !process.env.CI,
+    reuseExistingServer: false,
+    timeout: 180_000,
   },
 });

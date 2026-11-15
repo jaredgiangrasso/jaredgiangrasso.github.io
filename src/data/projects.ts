@@ -5,17 +5,14 @@ import lunchbox from "../assets/projects/lunchbox-screen.png";
 import medly from "../assets/projects/medly-screen.png";
 import mixmash from "../assets/projects/mixmash-screen.png";
 import trending from "../assets/projects/trending-screen.png";
-import trendingVideo from "../assets/projects/trending-screen.mov";
 
 export type Project = {
   name: string;
   /** Short stack label, e.g. "TYPESCRIPT/REACT". */
   tools: string;
   description: string;
-  /** Screenshot (also used as the video poster when there's a recording). */
+  /** Screenshot shown on the card. */
   still: ImageMetadata;
-  /** Optional looping screen recording. */
-  video?: string;
   /** Where the card links. Falls back to `gitLink`; with neither, the card isn't linked. */
   demoLink?: string;
   /** Public source. Shown as a separate GitHub icon when there's also a demo. */
@@ -63,6 +60,5 @@ export const projects: Project[] = [
     tools: "HTML/CSS/REACT",
     description: "Automated E-commerce",
     still: trending,
-    video: trendingVideo,
   },
 ];

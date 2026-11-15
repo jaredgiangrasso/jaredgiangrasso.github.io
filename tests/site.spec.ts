@@ -7,9 +7,8 @@ import { bio, projects, resume } from "./fixtures";
  * so these must pass unchanged before and after the Astro migration.
  */
 
-/** Finds the media (img or video poster) whose asset name contains `slug`. */
-const media = (page: Page, slug: string) =>
-  page.locator(`img[src*="${slug}"], video[poster*="${slug}"]`).first();
+/** Finds the screenshot whose asset name contains `slug`. */
+const media = (page: Page, slug: string) => page.locator(`img[src*="${slug}"]`).first();
 
 /** href of the nearest link wrapping the given element, or null if it isn't linked. */
 const wrappingHref = (page: Page, selector: string) =>
@@ -115,7 +114,7 @@ test.describe("projects", () => {
 
     test(`#00${i + 1} ${p.name}: links`, async ({ page }) => {
       const primary = p.demoLink ?? p.gitLink ?? null;
-      const mediaSel = `img[src*="${p.slug}"], video[poster*="${p.slug}"]`;
+      const mediaSel = `img[src*="${p.slug}"]`;
       expect(await wrappingHref(page, mediaSel), "screenshot link").toBe(primary);
 
       const info = page.getByText(p.description, { exact: true });
@@ -138,20 +137,8 @@ test.describe("projects", () => {
     expect(githubLinks).toEqual(projects.filter((p) => p.gitLink).map((p) => p.gitLink));
   });
 
-  test("Trending Tees has its screen recording with a poster", async ({ page }) => {
-    const video = page.locator('video:has(source[src*="trending-screen"]), video[src*="trending-screen"]');
-    await expect(video).toHaveCount(1);
-    await expect(video).toHaveAttribute("poster", /trending-screen/);
-    await expect(video).toHaveAttribute("loop", "");
-    await expect(video).toHaveAttribute("autoplay", "");
-    // Browsers only autoplay muted video; playsinline keeps iOS from going fullscreen.
-    await expect(video).toHaveJSProperty("muted", true);
-    await expect(video).toHaveAttribute("playsinline", "");
-  });
-
-  test("only the screen recording is a <video>; other screenshots are images", async ({ page }) => {
-    await expect(page.locator("video")).toHaveCount(projects.filter((p) => p.slug === "trending-screen").length);
-    for (const p of projects.filter((p) => p.slug !== "trending-screen")) {
+  test("every project screenshot is an image with alt text", async ({ page }) => {
+    for (const p of projects) {
       await expect(page.locator(`img[src*="${p.slug}"]`), p.name).toHaveCount(1);
       await expect(page.locator(`img[src*="${p.slug}"]`), p.name).toHaveAttribute("alt", /.+/);
     }
