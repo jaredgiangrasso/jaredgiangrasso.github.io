@@ -15,10 +15,10 @@
     "check": "astro check",
     "test": "playwright test",
     "test:update": "playwright test --update-snapshots",
-    "test:live": "playwright test -c playwright.live.config.ts --project=live --no-deps",
+    "test:live": "playwright test -c playwright.live.config.ts",
     "predeploy": "npm run check && npm test",
     "deploy": "gh-pages -t -b master -d dist",
-    "postdeploy": "playwright test -c playwright.live.config.ts"
+    "postdeploy": "node scripts/wait-for-deploy.ts && npm run test:live"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.12",

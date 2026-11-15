@@ -45,9 +45,10 @@ src/
     ProjectCard.astro        a single project card
     Icon.astro               Font Awesome icon -> inline SVG
   data/projects.ts           the project list (edit this to add/change projects)
-  assets/                    images and video processed by Astro
+  assets/                    images processed by Astro
   styles/global.css          site-wide base styles
 public/                      copied as-is: résumé PDF, favicons, manifest, CNAME, .nojekyll
+scripts/wait-for-deploy.ts  follows a deploy until it is live (see Deployment)
 tests/                       Playwright suite (see below)
   live/                      post-deploy checks against the real site
 ```
@@ -60,7 +61,7 @@ The tests never import app code. `npm test` builds the site, serves it with `ast
 
 - `tests/site.spec.ts`: content, links, the résumé download, head tags, scrolling behaviour, and no console errors or broken requests.
 - `tests/visual.spec.ts`: screenshots at 1440, 1024, 768 and 390px: at the top, scrolled to the last project, and at the very bottom.
-- `tests/live/`: run against https://jaredgiangrasso.com after each deploy (config: `playwright.live.config.ts`). It waits until GitHub Pages serves the new build, then checks that every asset loads, the page is styled, and the résumé downloads.
+- `tests/live/`: smoke tests against https://jaredgiangrasso.com, run after each deploy (config: `playwright.live.config.ts`). They check that every asset loads, the page is styled, and the résumé downloads.
 
 Visual baselines live in `tests/visual.spec.ts-snapshots/`. They are specific to the OS and browser and were generated on Windows with Chrome. To run in CI, switch `playwright.config.ts` to Playwright's bundled Chromium and generate Linux baselines.
 
@@ -70,7 +71,7 @@ Visual baselines live in `tests/visual.spec.ts-snapshots/`. They are specific to
 
 1. **predeploy**: type-check, build and run the full test suite. Any failure stops the deploy.
 2. **deploy**: push `dist/` to the `master` branch of the `origin` remote (`jaredgiangrasso.github.io`) using `gh-pages`.
-3. **postdeploy**: wait for GitHub Pages to publish (usually 1–2 minutes), then run the live checks.
+3. **postdeploy**: `scripts/wait-for-deploy.ts` follows the GitHub Pages build for the pushed commit, logging its status and a link to the run. It fails straight away if the build fails, then waits for the live site to serve the new build (usually 1–2 minutes in total). After that, the smoke tests in `tests/live/` run.
 
 Two files in `public/` matter for GitHub Pages:
 
