@@ -1,4 +1,18 @@
-/* Site-wide base styles (formerly src/index.css). */
+/* Site-wide base styles. */
+
+:root {
+  /* Height of the pinned mobile intro header (≤900px). It is a minimum: the header grows if text
+     needs more room (zoom, text-spacing overrides), so nothing inside it gets clipped. */
+  --header-h: 240px;
+  /* Keyboard focus ring: ≥6:1 against the light gradient and glass cards. */
+  --focus-ring: 3px solid #1d4ed8;
+}
+
+@media only screen and (max-width: 600px) {
+  :root {
+    --header-h: 210px;
+  }
+}
 
 body {
   margin: 0;
@@ -15,15 +29,45 @@ code {
     monospace;
 }
 
-/* Keep scrollIntoView / anchor jumps clear of the fixed mobile header. */
+/* Text for screen readers only (e.g. "opens in new tab", file type). */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+a:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Keep keyboard focus and anchor jumps clear of the pinned mobile header. */
 @media only screen and (max-width: 900px) {
   html {
-    scroll-padding-top: 240px;
+    scroll-padding-top: calc(var(--header-h) + 8px);
   }
 }
 
-@media only screen and (max-width: 600px) {
+/* Short screens (landscape phones, heavy zoom): the header scrolls away instead of pinning,
+   so it never covers most of the viewport. Must match the rule in Intro.astro. */
+@media only screen and (max-width: 900px) and (max-height: 600px) {
   html {
-    scroll-padding-top: 210px;
+    scroll-padding-top: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
   }
 }

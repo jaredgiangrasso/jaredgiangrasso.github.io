@@ -1,5 +1,5 @@
 import { expect, test, type Page } from "@playwright/test";
-import { bio, projects, resume } from "./fixtures";
+import { bio, projects, resume, title } from "./fixtures";
 
 /**
  * Content + behaviour contract for jaredgiangrasso.com.
@@ -10,9 +10,15 @@ import { bio, projects, resume } from "./fixtures";
 /** Finds the screenshot whose asset name contains `slug`. */
 const media = (page: Page, slug: string) => page.locator(`img[src*="${slug}"]`).first();
 
-/** href of the nearest link wrapping the given element, or null if it isn't linked. */
-const wrappingHref = (page: Page, selector: string) =>
-  page.evaluate((sel) => document.querySelector(sel)?.closest("a")?.getAttribute("href") ?? null, selector);
+/** href of the link a click at the centre of `locator` would hit, or null if none. */
+async function hrefAtCentre(page: Page, locator: ReturnType<Page["locator"]>) {
+  await locator.scrollIntoViewIfNeeded();
+  const box = (await locator.boundingBox())!;
+  return page.evaluate(
+    ([x, y]) => document.elementFromPoint(x, y)?.closest("a")?.getAttribute("href") ?? null,
+    [box.x + box.width / 2, box.y + box.height / 2],
+  );
+}
 
 test.beforeEach(async ({ page }) => {
   await page.goto("/");
@@ -20,7 +26,7 @@ test.beforeEach(async ({ page }) => {
 
 test.describe("document head", () => {
   test("has the site title", async ({ page }) => {
-    await expect(page).toHaveTitle("Jared Giangrasso");
+    await expect(page).toHaveTitle(title);
   });
 
   test("links favicons and manifest that all resolve", async ({ page, request }) => {
@@ -114,21 +120,31 @@ test.describe("projects", () => {
 
     test(`#00${i + 1} ${p.name}: links`, async ({ page }) => {
       const primary = p.demoLink ?? p.gitLink ?? null;
-      const mediaSel = `img[src*="${p.slug}"]`;
-      expect(await wrappingHref(page, mediaSel), "screenshot link").toBe(primary);
+      const titleLink = page.getByRole("heading", { name: p.name }).getByRole("link");
 
-      const info = page.getByText(p.description, { exact: true });
-      expect(await info.evaluate((el) => el.closest("a")?.getAttribute("href") ?? null), "description link").toBe(primary);
-
-      if (primary) {
-        // Opens in a new tab, safely.
-        const anchor = page.locator(`a[href="${primary}"]`).first();
-        await expect(anchor).toHaveAttribute("target", "_blank");
-        await expect(anchor).toHaveAttribute("rel", /noopener/);
+      if (!primary) {
+        await expect(titleLink).toHaveCount(0);
+        expect(await hrefAtCentre(page, media(page, p.slug)), "unlinked card").toBeNull();
+        return;
       }
 
-      // Projects with both a demo and public source get one extra, separate GitHub link.
-      if (p.gitLink && p.gitLink !== primary) await expect(page.locator(`a[href="${p.gitLink}"]`)).toHaveCount(1);
+      // One link per card: the title, named after the project, opening safely in a new tab (and saying so).
+      await expect(titleLink).toHaveAttribute("href", primary);
+      await expect(titleLink).toHaveAttribute("target", "_blank");
+      await expect(titleLink).toHaveAttribute("rel", /noopener/);
+      await expect(titleLink).toHaveAccessibleName(`${p.name} (opens in new tab)`);
+      await expect(page.locator(`a[href="${primary}"]`)).toHaveCount(1);
+
+      // ...but the whole card is clickable: the screenshot and the description both hit that link.
+      expect(await hrefAtCentre(page, media(page, p.slug)), "click on screenshot").toBe(primary);
+      expect(await hrefAtCentre(page, page.getByText(p.description, { exact: true })), "click on description").toBe(primary);
+
+      // Projects with both a demo and public source get one extra, separate GitHub link, clickable above the card link.
+      if (p.gitLink && p.gitLink !== primary) {
+        const github = page.getByRole("link", { name: `${p.name} on GitHub (opens in new tab)` });
+        await expect(github).toHaveAttribute("href", p.gitLink);
+        expect(await hrefAtCentre(page, github), "click on GitHub icon").toBe(p.gitLink);
+      }
     });
   }
 
@@ -137,10 +153,10 @@ test.describe("projects", () => {
     expect(githubLinks).toEqual(projects.filter((p) => p.gitLink).map((p) => p.gitLink));
   });
 
-  test("every project screenshot is an image with alt text", async ({ page }) => {
+  test("project screenshots are images marked decorative (the card title names the project)", async ({ page }) => {
     for (const p of projects) {
       await expect(page.locator(`img[src*="${p.slug}"]`), p.name).toHaveCount(1);
-      await expect(page.locator(`img[src*="${p.slug}"]`), p.name).toHaveAttribute("alt", /.+/);
+      await expect(page.locator(`img[src*="${p.slug}"]`), p.name).toHaveAttribute("alt", "");
     }
   });
 });

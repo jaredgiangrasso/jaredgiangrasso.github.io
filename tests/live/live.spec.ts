@@ -1,3 +1,4 @@
+import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
 
 // Catches what only the real host can break: missing or unpublished assets,
@@ -20,4 +21,12 @@ test("live site loads completely and styled, with no broken requests", async ({ 
 
   const resume = await page.getByRole("link", { name: "Download Resume" }).getAttribute("href");
   expect((await request.get(resume!)).ok(), "résumé PDF").toBe(true);
+});
+
+test("live site has no axe accessibility violations", async ({ page }) => {
+  await page.goto(`/?v=${Date.now()}`);
+  const { violations } = await new AxeBuilder({ page })
+    .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa", "best-practice"])
+    .analyze();
+  expect(violations.map((v) => `${v.id}: ${v.nodes.map((n) => n.target.join(" ")).join(", ")}`)).toEqual([]);
 });

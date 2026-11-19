@@ -12,9 +12,8 @@ interface Props {
 const { project, index } = Astro.props;
 const { name, tools, description, still, demoLink, gitLink } = project;
 
+// The card's one link: the demo, else the source. With neither, the card isn't linked.
 const href = demoLink ?? gitLink;
-// Unlinked projects still render an <a> (a valid placeholder link) so layout is identical.
-const linkAttrs = href ? { href, target: "_blank", rel: "noreferrer noopener" } : {};
 const number = `#${String(index + 1).padStart(3, "0")}`;
 
 // Rendered at ~41vw on desktop and ~77vw on mobile (85% of the card's width).
@@ -24,52 +23,69 @@ const eager = index === 0;
 const image = await getImage({ src: still, widths, sizes });
 ---
 
-<div class="card">
+<li class:list={["card", { linked: !!href }]}>
   <div class="card-header">
-    <h2 class="project-title">{name}</h2>
-    <span class="card-index">{number}</span>
+    <h2 class="project-title">
+      {
+        href ? (
+          <a class="card-link" href={href} target="_blank" rel="noreferrer noopener">
+            {name}{" "}
+            <span class="visually-hidden">(opens in new tab)</span>
+          </a>
+        ) : (
+          name
+        )
+      }
+    </h2>
+    <span class="card-index" aria-hidden="true">{number}</span>
   </div>
 
-  <a {...linkAttrs}>
-    <img
-      class="screen"
-      src={image.src}
-      srcset={image.srcSet.attribute}
-      sizes={sizes}
-      width={still.width}
-      height={still.height}
-      style={`aspect-ratio: ${still.width} / ${still.height}`}
-      alt={`${name} screenshot`}
-      loading={eager ? "eager" : "lazy"}
-      decoding="async"
-    />
-  </a>
+  <!-- Decorative: the title already names the project, and the whole card is the link. -->
+  <img
+    class="screen"
+    src={image.src}
+    srcset={image.srcSet.attribute}
+    sizes={sizes}
+    width={still.width}
+    height={still.height}
+    style={`aspect-ratio: ${still.width} / ${still.height}`}
+    alt=""
+    loading={eager ? "eager" : "lazy"}
+    decoding="async"
+  />
 
-  <a {...linkAttrs}>
+  <div class="card-footer">
     <div class="project-info">
       <p class="tools">{tools}</p>
       <p class="description">{description}</p>
     </div>
-  </a>
-
-  {
-    gitLink && (
-      <a class="github-icon" href={gitLink} target="_blank" rel="noreferrer noopener" aria-label={`${name} on GitHub`}>
-        <Icon icon={faGithub} size="3x" />
-      </a>
-    )
-  }
-</div>
+    {
+      gitLink && (
+        <a
+          class="github-icon"
+          href={gitLink}
+          target="_blank"
+          rel="noreferrer noopener"
+          aria-label={`${name} on GitHub (opens in new tab)`}
+        >
+          <Icon icon={faGithub} size="3x" />
+        </a>
+      )
+    }
+  </div>
+</li>
 
 <style>
   .card {
-    width: 80%;
-    height: auto;
     position: relative;
+    width: 80%;
     margin-top: 10%;
     margin-bottom: 5%;
-    padding-top: 5%;
-    padding-bottom: 10%;
+    /* Contents flow top to bottom, so they can grow (zoom, text spacing) without overlapping. */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-block: clamp(10px, 1.25vw, 18px);
     border-radius: 20px;
 
     background: radial-gradient(circle at top left, rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0.05));
@@ -86,35 +102,36 @@ const image = await getImage({ src: still, widths, sizes });
     z-index: 1;
   }
 
-  .card:hover {
-    transform: translateY(-4px);
+  /* Only linked cards respond to hover; keyboard focus gets the same treatment plus a ring. */
+  .card.linked:hover,
+  .card:has(.card-link:focus-visible) {
     box-shadow: 0 26px 60px rgba(15, 23, 42, 0.5);
     border-color: rgba(255, 255, 255, 0.8);
     background: radial-gradient(circle at top left, rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0.08));
   }
 
-  /* Description line (was an <h1>) */
-  .description {
-    margin: 0;
-    margin-bottom: 2px;
-    font-size: 20px;
-    font-weight: bold;
+  .card:has(.card-link:focus-visible) {
+    outline: var(--focus-ring);
+    outline-offset: 4px;
   }
 
-  /* Stack line (was an <h2>) */
-  .tools {
-    margin: 0;
-    font-size: 15px;
-    font-weight: lighter;
+  @media (prefers-reduced-motion: no-preference) {
+    .card.linked:hover,
+    .card:has(.card-link:focus-visible) {
+      transform: translateY(-4px);
+    }
+  }
+
+  .card-header,
+  .card-footer {
+    width: 85%;
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
   }
 
   .card-header {
-    position: absolute;
-    width: 85%;
-    top: 3.5%;
-    left: 7%;
-    display: flex;
-    justify-content: space-between;
+    margin-bottom: 18px;
     font-size: 18px;
     font-weight: 700;
   }
@@ -126,44 +143,74 @@ const image = await getImage({ src: still, widths, sizes });
     color: #020617;
   }
 
+  .card-link {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  /* Stretch the title link over the whole card, so the card is one click target and one tab stop. */
+  .card-link::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 20px;
+    z-index: 1;
+  }
+
+  /* The ring goes around the whole card instead (see above). */
+  .card-link:focus-visible {
+    outline: none;
+  }
+
   .card-index {
-    color: #64748b;
+    color: #475569;
+  }
+
+  .screen {
+    display: block;
+    width: 85%;
+    height: auto;
+    border-radius: 16px;
+    filter: drop-shadow(2px 5px 5px rgb(15, 23, 42, 0.4));
+  }
+
+  .card-footer {
+    align-items: flex-end;
+    margin-top: clamp(8px, 1.9vw, 27px);
   }
 
   .project-info {
-    position: absolute;
-    width: 85%;
-    bottom: 3%;
-    left: 7%;
-    font-size: 12px;
+    min-width: 0;
     color: #020617;
     text-shadow: 0 1px 2px rgba(255, 255, 255, 0.45);
   }
 
-  .screen {
-    width: 85%;
-    height: auto;
-    perspective: 100px;
-    position: relative;
-    top: 3%;
-    left: 7.5%;
-    border-radius: 16px;
-    overflow: hidden;
-    filter: drop-shadow(2px 5px 5px rgb(15, 23, 42, 0.4));
+  /* Stack line */
+  .tools {
+    margin: 0;
+    font-size: 15px;
+    font-weight: normal;
   }
 
+  /* Description line */
+  .description {
+    margin: 0;
+    margin-bottom: 2px;
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+  /* Above the stretched card link. The padding/negative margin give a ≥24px tap target
+     without changing how big the icon looks. */
   .github-icon {
-    position: absolute;
-    bottom: 3%;
-    right: 8%;
+    position: relative;
+    z-index: 2;
+    flex: none;
+    display: inline-flex;
+    padding: 4px;
+    margin: -4px;
     font-size: 13px;
     color: #020617;
-  }
-
-  @media only screen and (max-width: 900px) {
-    .card {
-      padding-top: 10%;
-    }
   }
 
   @media only screen and (max-width: 1200px) {
@@ -177,42 +224,28 @@ const image = await getImage({ src: still, widths, sizes });
 
     .github-icon {
       font-size: 10px;
-      bottom: 4%;
     }
   }
 
   @media only screen and (max-width: 900px) {
-    .project-info {
-      font-size: 8px;
-      bottom: 5%;
-    }
-
     .card {
       margin-top: 5%;
       width: 90%;
-      right: 0;
     }
 
     .github-icon {
       font-size: 9px;
-      bottom: 6%;
     }
   }
 
+  /* Text never shrinks below 12–14px, so zooming always makes it bigger. */
   @media only screen and (max-width: 600px) {
-    .project-info {
-      font-size: 8px;
-      bottom: 3%;
+    .description {
+      font-size: 14px;
     }
 
     .github-icon {
-      font-size: 7px;
-      bottom: 4.5%;
-    }
-
-    .project-info .tools,
-    .project-info .description {
-      font-size: 10px;
+      font-size: 8px;
     }
   }
 </style>

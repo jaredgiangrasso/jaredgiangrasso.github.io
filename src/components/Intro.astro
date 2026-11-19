@@ -5,7 +5,7 @@ import Icon from "./Icon.astro";
 import headshot from "../assets/Headshot_Square.png";
 ---
 
-<div class="intro-pin">
+<header class="intro-pin">
   <div class="personal-info-container">
     <div class="personal-info">
       <div class="name-headshot">
@@ -16,7 +16,7 @@ import headshot from "../assets/Headshot_Square.png";
         <Image
           class="headshot"
           src={headshot}
-          alt="Jared Giangrasso"
+          alt=""
           widths={[100, 160, 240]}
           sizes="(max-width: 900px) 50px, (max-width: 1200px) 70px, 80px"
           loading="eager"
@@ -35,14 +35,15 @@ import headshot from "../assets/Headshot_Square.png";
       </div>
 
       <div class="resume-cta">
-        <a class="resume-label" href="/Jared_Giangrasso_Resume.pdf" download="Jared_Giangrasso_Resume">
+        <a class="resume-label" href="/Jared_Giangrasso_Resume.pdf" download="Jared_Giangrasso_Resume.pdf">
           <Icon icon={faFile} size="lg" id="file-icon" />
-          <span>Download Resume</span>
+          <span>Download Resume</span>{" "}
+          <span class="visually-hidden">(PDF, 102 KB)</span>
         </a>
       </div>
     </div>
   </div>
-</div>
+</header>
 
 <style>
   /* Desktop: the intro is pinned while the document scrolls the projects beside it. */
@@ -150,10 +151,21 @@ import headshot from "../assets/Headshot_Square.png";
     font-size: 14px;
   }
 
-  .resume-label:hover {
+  .resume-label:hover,
+  .resume-label:focus-visible {
     background: rgba(255, 255, 255, 0.9);
     box-shadow: 0 6px 16px rgba(15, 23, 42, 0.2);
-    transform: translateY(-1px);
+  }
+
+  .resume-label:focus-visible {
+    border-radius: 999px;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .resume-label:hover,
+    .resume-label:focus-visible {
+      transform: translateY(-1px);
+    }
   }
 
   .resume-label span {
@@ -163,7 +175,6 @@ import headshot from "../assets/Headshot_Square.png";
   /* ID selector on purpose: must out-rank Font Awesome's `.svg-inline--fa.fa-w-12` width. */
   #file-icon {
     width: 13px;
-    color: #020617;
     transition: transform 0.1s ease-in;
   }
 
@@ -198,38 +209,41 @@ import headshot from "../assets/Headshot_Square.png";
   }
 
   @media only screen and (max-width: 900px) {
-    /* Mobile: the intro becomes a fixed header and the projects scroll beneath it. */
+    /* Mobile: the intro is a header pinned to the top while the projects scroll beneath it.
+       It stays in the document flow, so it can grow (zoom, text spacing) without covering content. */
     .intro-pin {
-      position: static;
       height: auto;
-      /* As a grid item this still forms a stacking context; keep the fixed header above the cards. */
       z-index: 2;
     }
 
     .personal-info {
       position: relative;
-      width: 475px;
+      width: auto;
+      max-width: 475px;
       display: block;
       margin: 0 auto;
+      padding-inline: 16px;
       left: 0;
       top: 0;
     }
 
     .personal-info-container {
-      position: fixed;
       top: 0;
       margin: 0;
       background-color: #f9fffd;
       border-bottom: 1px solid lightgray;
-      height: 240px;
+      height: auto;
+      min-height: var(--header-h);
       width: 100%;
-      z-index: 2;
+      /* Contain the children's margins (the old fixed header did this implicitly). */
+      display: flow-root;
     }
 
     .statement {
       margin-top: 15px;
       font-size: 12px;
-      width: 470px;
+      width: auto;
+      max-width: 470px;
     }
 
     #file-icon {
@@ -260,19 +274,15 @@ import headshot from "../assets/Headshot_Square.png";
 
   @media only screen and (max-width: 600px) {
     .statement {
-      width: 320px;
+      max-width: 320px;
     }
 
     .statement .statement2 {
       display: none;
     }
 
-    .personal-info-container {
-      height: 210px;
-    }
-
     .personal-info {
-      width: 310px;
+      max-width: 320px;
     }
 
     .headshot {
@@ -281,6 +291,14 @@ import headshot from "../assets/Headshot_Square.png";
 
     #file-icon {
       width: 15px;
+    }
+  }
+
+  /* Short screens (landscape phones, heavy zoom): don't pin the header, so it can't cover most
+     of the viewport. Must match the scroll-padding rule in global.css. */
+  @media only screen and (max-width: 900px) and (max-height: 600px) {
+    .intro-pin {
+      position: static;
     }
   }
 </style>

@@ -3,8 +3,11 @@ import ProjectCard from "./ProjectCard.astro";
 import { projects } from "../data/projects";
 ---
 
-<main class="card-viewer">
-  {projects.map((project, index) => <ProjectCard project={project} index={index} />)}
+<main class="card-viewer" aria-label="Projects">
+  <!-- role="list": Safari drops list semantics when list-style is none. -->
+  <ol class="card-list" role="list">
+    {projects.map((project, index) => <ProjectCard project={project} index={index} />)}
+  </ol>
 </main>
 
 <style>
@@ -12,27 +15,24 @@ import { projects } from "../data/projects";
      and touch scrolling work anywhere on the page. */
   .card-viewer {
     position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
     grid-area: cards;
     padding-top: 10%;
     padding-bottom: 10%;
     z-index: 1;
   }
 
-  @media only screen and (max-width: 900px) {
-    /* Starts below the fixed 240px mobile header. */
-    .card-viewer {
-      padding: 0;
-      padding-top: 240px;
-    }
+  .card-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    list-style: none;
   }
 
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 900px) {
     .card-viewer {
-      padding-top: 210px;
+      padding: 0;
     }
   }
 </style>

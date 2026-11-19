@@ -59,8 +59,9 @@ tests/                       Playwright suite (see below)
 The tests never import app code. `npm test` builds the site, serves it with `astro preview` on port 4329, and checks in Chrome what a visitor gets (your installed Chrome locally; in CI, Playwright's Chromium inside the official Playwright Docker image, whose version must match `@playwright/test`). Stop any other `astro preview` first; Astro only allows one per project.
 
 - `tests/site.spec.ts`: content, links, the résumé download, head tags, scrolling behaviour, and no console errors or broken requests.
+- `tests/a11y.spec.ts`: accessibility (WCAG 2.2 AA). An axe scan at six screen sizes, including a landscape phone and 400% zoom, plus checks axe can't do on this design: tab order, a visible focus indicator on every link, focus not hidden under the mobile header, the header not pinning on short screens, no horizontal scrolling, no overlaps under text-spacing overrides, and 24px tap targets.
 - `tests/visual.spec.ts`: screenshots at 1440, 1024, 768 and 390px: at the top, scrolled to the last project, and at the very bottom.
-- `tests/live/`: smoke tests against https://jaredgiangrasso.com, run after each deploy (config: `playwright.live.config.ts`). They check that every asset loads, the page is styled, and the résumé downloads.
+- `tests/live/`: smoke tests against https://jaredgiangrasso.com, run after each deploy (config: `playwright.live.config.ts`). They check that every asset loads, the page is styled, the résumé downloads, and axe finds no accessibility violations.
 
 Visual baselines live in `tests/visual.spec.ts-snapshots/`. Fonts render slightly differently on each OS, so there are two sets: `*-win32.png` for local runs on Windows and `*-linux.png` for CI. After an intended visual change, update both:
 

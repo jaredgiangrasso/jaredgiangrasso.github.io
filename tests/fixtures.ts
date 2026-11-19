@@ -1,6 +1,8 @@
 // The site's content as the tests expect it. Mirrors what is live today;
 // update this file (deliberately) whenever the content changes.
 
+export const title = "Jared Giangrasso – Full-Stack Software Engineer";
+
 export const bio = [
   "I'm a full-stack software engineer based in New York. I build scalable web platforms and developer tooling, with experience leading product development from architecture to production.",
   "Take a look at some of my projects to see what I've worked on, and feel free to follow me over to Github if you're interested in how anything works.",
@@ -8,7 +10,7 @@ export const bio = [
 
 export const resume = {
   label: "Download Resume",
-  downloadName: "Jared_Giangrasso_Resume",
+  downloadName: "Jared_Giangrasso_Resume.pdf",
 } as const;
 
 export type Project = {
