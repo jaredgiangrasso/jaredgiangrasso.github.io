@@ -20,6 +20,9 @@ jobs:
   test:
     runs-on: ubuntu-latest
     timeout-minutes: 15 # fail fast if anything hangs (GitHub's default is 6 hours)
+    # Playwright's image ships the browsers and their system packages, so nothing is downloaded at run
+    # time (apt mirrors have been flaky). Keep its version in step with @playwright/test in package-lock.json.
+    container: mcr.microsoft.com/playwright:v1.65.0-noble
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
@@ -27,7 +30,6 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci
-      - run: npx playwright install --with-deps chromium
       - run: npm run check
       - run: npm test # builds dist/, then runs the Playwright suite against it
       - name: Upload test report
@@ -62,6 +64,9 @@ jobs:
     needs: deploy
     runs-on: ubuntu-latest
     timeout-minutes: 10 # fail fast if anything hangs (GitHub's default is 6 hours)
+    # Playwright's image ships the browsers and their system packages, so nothing is downloaded at run
+    # time (apt mirrors have been flaky). Keep its version in step with @playwright/test in package-lock.json.
+    container: mcr.microsoft.com/playwright:v1.65.0-noble
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
@@ -69,5 +74,4 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci
-      - run: npx playwright install --with-deps chromium
       - run: npm run test:live

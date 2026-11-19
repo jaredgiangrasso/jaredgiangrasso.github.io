@@ -56,7 +56,7 @@ tests/                       Playwright suite (see below)
 
 ### Tests
 
-The tests never import app code. `npm test` builds the site, serves it with `astro preview` on port 4329, and checks in Chrome what a visitor gets (your installed Chrome locally, Playwright's bundled Chromium in CI). Stop any other `astro preview` first; Astro only allows one per project.
+The tests never import app code. `npm test` builds the site, serves it with `astro preview` on port 4329, and checks in Chrome what a visitor gets (your installed Chrome locally; in CI, Playwright's Chromium inside the official Playwright Docker image, whose version must match `@playwright/test`). Stop any other `astro preview` first; Astro only allows one per project.
 
 - `tests/site.spec.ts`: content, links, the résumé download, head tags, scrolling behaviour, and no console errors or broken requests.
 - `tests/visual.spec.ts`: screenshots at 1440, 1024, 768 and 390px: at the top, scrolled to the last project, and at the very bottom.
