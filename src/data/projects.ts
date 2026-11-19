@@ -3,8 +3,6 @@ import aws from "../assets/projects/aws-screen.png";
 import constellation from "../assets/projects/constellation-screen.png";
 import lunchbox from "../assets/projects/lunchbox-screen.png";
 import medly from "../assets/projects/medly-screen.png";
-import mixmash from "../assets/projects/mixmash-screen.png";
-import trending from "../assets/projects/trending-screen.png";
 
 export type Project = {
   name: string;
@@ -43,22 +41,10 @@ export const projects: Project[] = [
     gitLink: "https://github.com/medly/medly-components",
   },
   {
-    name: "Mix Mash",
-    tools: "REACT/DJANGO",
-    description: "Song Mashup Creator",
-    still: mixmash,
-  },
-  {
     name: "Lunchbox",
     tools: "REACT/ANTD/NIVO",
     description: "Ordering Platform Admin Dashboard",
     still: lunchbox,
     demoLink: "https://lunchbox.io/",
-  },
-  {
-    name: "Trending Tees",
-    tools: "HTML/CSS/REACT",
-    description: "Automated E-commerce",
-    still: trending,
   },
 ];

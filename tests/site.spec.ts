@@ -171,10 +171,10 @@ test.describe("layout behaviour", () => {
       const name = page.getByText("Jared", { exact: true });
       const before = (await name.boundingBox())!;
 
-      await page.getByText(projects.at(-1)!.name, { exact: true }).scrollIntoViewIfNeeded();
+      await page.getByRole("heading", { name: projects.at(-1)!.name }).scrollIntoViewIfNeeded();
 
       await expect(page.getByText(projects.at(-1)!.description, { exact: true })).toBeInViewport();
-      await expect(page.getByText(projects[0].name, { exact: true })).not.toBeInViewport();
+      await expect(page.getByRole("heading", { name: projects[0].name })).not.toBeInViewport();
       await expect(name).toBeInViewport();
       const after = (await name.boundingBox())!;
       expect(Math.abs(after.y - before.y), "intro did not move").toBeLessThan(2);
@@ -188,14 +188,14 @@ test.describe("layout behaviour", () => {
     const box = (await page.getByText("Jared", { exact: true }).boundingBox())!;
     await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
     await page.mouse.wheel(0, 2000);
-    await expect(page.getByText(projects[0].name, { exact: true })).not.toBeInViewport();
+    await expect(page.getByRole("heading", { name: projects[0].name })).not.toBeInViewport();
   });
 
   test("desktop: keyboard (Page Down) scrolls the projects", async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 900 });
     await page.keyboard.press("PageDown");
     await page.keyboard.press("PageDown");
-    await expect(page.getByText(projects[0].name, { exact: true })).not.toBeInViewport();
+    await expect(page.getByRole("heading", { name: projects[0].name })).not.toBeInViewport();
   });
 });
 

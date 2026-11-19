@@ -47,22 +47,10 @@ export const projects: Project[] = [
     gitLink: "https://github.com/medly/medly-components",
   },
   {
-    name: "Mix Mash",
-    tools: "REACT/DJANGO",
-    description: "Song Mashup Creator",
-    slug: "mixmash-screen",
-  },
-  {
     name: "Lunchbox",
     tools: "REACT/ANTD/NIVO",
     description: "Ordering Platform Admin Dashboard",
     slug: "lunchbox-screen",
     demoLink: "https://lunchbox.io/",
-  },
-  {
-    name: "Trending Tees",
-    tools: "HTML/CSS/REACT",
-    description: "Automated E-commerce",
-    slug: "trending-screen",
   },
 ];
