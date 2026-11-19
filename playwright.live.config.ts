@@ -1,8 +1,7 @@
 import { defineConfig } from "@playwright/test";
 
 /**
- * Smoke tests against the real site. They run automatically after `npm run deploy`, once
- * scripts/wait-for-deploy.ts has seen the new build go live.
+ * Smoke tests against the real site. They run in CI after each deploy (see .github/workflows/deploy.yml).
  *
  *   npm run test:live                                 check whatever is live now
  *   LIVE_URL=http://localhost:4321 npm run test:live  check another server instead
@@ -10,5 +9,9 @@ import { defineConfig } from "@playwright/test";
 export default defineConfig({
   testDir: "./tests/live",
   reporter: "list",
-  use: { baseURL: process.env.LIVE_URL ?? "https://jaredgiangrasso.com", channel: "chrome" },
+  use: {
+    baseURL: process.env.LIVE_URL ?? "https://jaredgiangrasso.com",
+    // Locally: the installed Chrome. In CI: Playwright's bundled Chromium.
+    channel: process.env.CI ? undefined : "chrome",
+  },
 });

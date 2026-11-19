@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-// Catches what only the real host can break: missing assets (e.g. Jekyll dropping folders),
+// Catches what only the real host can break: missing or unpublished assets,
 // an unstyled page, a lost custom domain (CNAME) or HTTPS.
 test("live site loads completely and styled, with no broken requests", async ({ page, request }) => {
   const broken: string[] = [];

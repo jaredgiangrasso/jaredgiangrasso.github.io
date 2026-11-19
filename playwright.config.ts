@@ -14,12 +14,12 @@ export default defineConfig({
   testDir: "./tests",
   testIgnore: "live/**",
   fullyParallel: true,
+  forbidOnly: !!process.env.CI,
   reporter: [["list"], ["html", { open: "never" }]],
   use: {
     baseURL: `http://localhost:${PORT}`,
-    // Use the locally installed Chrome rather than downloading a browser.
-    // In CI, switch to the bundled Chromium (`npx playwright install chromium`) and drop this.
-    channel: "chrome",
+    // Locally: the installed Chrome. In CI: Playwright's bundled Chromium.
+    channel: process.env.CI ? undefined : "chrome",
   },
   expect: {
     toHaveScreenshot: {

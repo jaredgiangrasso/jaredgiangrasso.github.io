@@ -1,0 +1,27 @@
+# Regenerates the Linux screenshot baselines that CI compares against (run it from the Actions tab
+# after an intended visual change). Download the "linux-screenshots" artifact, review the images,
+# copy them into tests/visual.spec.ts-snapshots/ and commit. See the README.
+name: Update Linux screenshots
+
+on: workflow_dispatch
+
+permissions:
+  contents: read
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npx playwright test tests/visual.spec.ts --update-snapshots=all
+      - uses: actions/upload-artifact@v7
+        with:
+          name: linux-screenshots
+          path: tests/visual.spec.ts-snapshots/*-linux.png
+          retention-days: 14
