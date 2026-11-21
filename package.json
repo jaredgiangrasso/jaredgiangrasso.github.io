@@ -14,7 +14,7 @@
     "preview": "astro preview",
     "check": "astro check",
     "test": "playwright test",
-    "test:update": "playwright test --update-snapshots",
+    "test:update": "playwright test --update-snapshots=all",
     "test:live": "playwright test -c playwright.live.config.ts"
   },
   "devDependencies": {
