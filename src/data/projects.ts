@@ -3,6 +3,7 @@ import aws from "../assets/projects/aws-screen.png";
 import constellation from "../assets/projects/constellation-screen.png";
 import lunchbox from "../assets/projects/lunchbox-screen.png";
 import medly from "../assets/projects/medly-screen.png";
+import wedding from "../assets/projects/wedding-screen.png";
 
 export type Project = {
   name: string;
@@ -15,6 +16,8 @@ export type Project = {
   demoLink?: string;
   /** Public source. Shown as a separate GitHub icon when there's also a demo. */
   gitLink?: string;
+  /** A personal (not professional) project: the card shows a "Personal project" label. */
+  personal?: boolean;
 };
 
 export const projects: Project[] = [
@@ -24,6 +27,15 @@ export const projects: Project[] = [
     description: "AI-Powered Advertising Automation Platform",
     still: constellation,
     demoLink: "https://www.helloconstellation.com/",
+  },
+  {
+    name: "Our Wedding Website",
+    tools: "ASTRO/PREACT",
+    description: "Designed & Built for My Wedding (Details Changed)",
+    still: wedding,
+    // An anonymized copy of the real site, published from its own repo (jaredgiangrasso/wedding-demo).
+    demoLink: "https://jaredgiangrasso.com/wedding-demo/",
+    personal: true,
   },
   {
     name: "Amazon Web Services",

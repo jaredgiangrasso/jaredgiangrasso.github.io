@@ -10,7 +10,7 @@ interface Props {
 }
 
 const { project, index } = Astro.props;
-const { name, tools, description, still, demoLink, gitLink } = project;
+const { name, tools, description, still, demoLink, gitLink, personal } = project;
 
 // The card's one link: the demo, else the source. With neither, the card isn't linked.
 const href = demoLink ?? gitLink;
@@ -19,24 +19,28 @@ const number = `#${String(index + 1).padStart(3, "0")}`;
 // Rendered at ~41vw on desktop and ~77vw on mobile (85% of the card's width).
 const sizes = "(max-width: 900px) 77vw, 41vw";
 const widths = [400, 600, 800, 1200, 1600];
-const eager = index === 0;
+// The first two screenshots can be on screen at load (on phones, the second is the largest element).
+const eager = index < 2;
 const image = await getImage({ src: still, widths, sizes });
 ---
 
 <li class:list={["card", { linked: !!href }]}>
   <div class="card-header">
-    <h2 class="project-title">
-      {
-        href ? (
-          <a class="card-link" href={href} target="_blank" rel="noreferrer noopener">
-            {name}{" "}
-            <span class="visually-hidden">(opens in new tab)</span>
-          </a>
-        ) : (
-          name
-        )
-      }
-    </h2>
+    <div class="title-group">
+      <h2 class="project-title">
+        {
+          href ? (
+            <a class="card-link" href={href} target="_blank" rel="noreferrer noopener">
+              {name}{" "}
+              <span class="visually-hidden">(opens in new tab)</span>
+            </a>
+          ) : (
+            name
+          )
+        }
+      </h2>
+      {personal && <span class="tag">Personal project</span>}
+    </div>
     <span class="card-index" aria-hidden="true">{number}</span>
   </div>
 
@@ -141,6 +145,27 @@ const image = await getImage({ src: still, widths, sizes });
     font-size: inherit;
     font-weight: inherit;
     color: #020617;
+  }
+
+  .title-group {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 10px;
+    min-width: 0;
+  }
+
+  .tag {
+    padding: 3px 8px;
+    border: 1px solid rgba(51, 65, 85, 0.3);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.6);
+    color: #334155;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    white-space: nowrap;
   }
 
   .card-link {

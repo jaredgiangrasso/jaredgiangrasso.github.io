@@ -148,6 +148,13 @@ test.describe("projects", () => {
     });
   }
 
+  test("only personal projects are labelled as such", async ({ page }) => {
+    const labelled = await page.getByText("Personal project", { exact: true }).evaluateAll((els) =>
+      els.map((el) => el.closest("li")!.querySelector("h2")!.textContent!.replace("(opens in new tab)", "").trim()),
+    );
+    expect(labelled).toEqual(projects.filter((p) => p.personal).map((p) => p.name));
+  });
+
   test("only projects with public source show a GitHub link", async ({ page }) => {
     const githubLinks = await page.locator('a[href*="github.com"]').evaluateAll((els) => els.map((e) => e.getAttribute("href")));
     expect(githubLinks).toEqual(projects.filter((p) => p.gitLink).map((p) => p.gitLink));

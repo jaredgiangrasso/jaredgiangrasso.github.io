@@ -21,6 +21,8 @@ export type Project = {
   slug: string;
   demoLink?: string;
   gitLink?: string;
+  /** Shows a "Personal project" label. */
+  personal?: boolean;
 };
 
 export const projects: Project[] = [
@@ -30,6 +32,14 @@ export const projects: Project[] = [
     description: "AI-Powered Advertising Automation Platform",
     slug: "constellation-screen",
     demoLink: "https://www.helloconstellation.com/",
+  },
+  {
+    name: "Our Wedding Website",
+    tools: "ASTRO/PREACT",
+    description: "Designed & Built for My Wedding (Details Changed)",
+    slug: "wedding-screen",
+    demoLink: "https://jaredgiangrasso.com/wedding-demo/",
+    personal: true,
   },
   {
     name: "Amazon Web Services",
